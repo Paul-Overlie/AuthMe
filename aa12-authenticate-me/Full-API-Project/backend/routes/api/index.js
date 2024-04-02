@@ -10,6 +10,13 @@ router.use('/session', sessionRouter)
 
 router.use('/users', usersRouter)
 
-router.post('/test', (req, res) =>{res.json({requestBody: req.body})})
+router.post('/test', (req, res) =>{
+    res.json({user: {
+        id,
+        firstName,
+        lastName,
+        email,
+        userName
+    }})})
 
 module.exports = router;
