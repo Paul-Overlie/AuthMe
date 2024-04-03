@@ -22,7 +22,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: Sequelize.ENUM
+        type: Sequelize.ENUM,
+        values: ["present", "absent"]
       },
       createdAt: {
         allowNull: false,
