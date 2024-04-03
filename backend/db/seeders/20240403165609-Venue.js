@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 
-const {Group}=require('../models')
+const {Venue}=require('../models')
 const bcrypt=require("bcryptjs")
 
 let options = {}
@@ -21,30 +21,27 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   await Group.bulkCreate([
-    {organizerId: 1,
-    name: "Small",
-    about: "Just a little guy",
-    type: "red",
-    private: true,
-    city: "Houston",
-    state: "Texas"},
+   await Venue.bulkCreate([
+    {groupId: 3,
+    address: "123 Happy Hollow",
+    city: "HappyTown",
+    state: "Happy",
+    lat: 3.9,
+    lng: 6.5},
 
-    {organizerId: 3,
-    name: "Medium",
-    about: "Center of the pack",
-    type: "yellow",
-    private: false,
-    city: "Dallas",
-    state: "Texas"},
+    {groupId: 2,
+    address: "321 Dry Eagle",
+    city: "San Antonio",
+    state: "Texas",
+    lat: 34.6,
+    lng: 87.6},
 
-    {organizerId: 2,
-    name: "Large",
-    about: "Fee fi fo",
-    type: "blue",
-    private: false,
-    city: "Atlanta",
-    state: "Georgia"}
+    {groupId: 1,
+    address: "147 Lovorn",
+    city: "Houston County",
+    state: "Georgia",
+    lat: 12.3,
+    lng: 45.6}
    ])
   },
 
@@ -55,10 +52,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    options.tableName = "Groups"
+    options.tableName = "Venues"
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      name: {[Op.in]: ["Small", "Medium", "Large"]}
-    }, {})
+      address: {[Op.in]: ["123 Happy Hollow", "321 Dry Eagle", "147 Lovorn"]}
+    })
   }
 };
