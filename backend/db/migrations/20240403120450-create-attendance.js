@@ -17,7 +17,7 @@ module.exports = {
       },
       eventId: {
         type: Sequelize.INTEGER,
-        references: {model: "FordF150"}
+        // references: {model: "Events"}
       },
       userId: {
         type: Sequelize.INTEGER,
