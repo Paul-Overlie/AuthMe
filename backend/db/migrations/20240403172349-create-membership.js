@@ -20,7 +20,8 @@ module.exports = {
         references: {model: "Users"}
       },
       groupId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {model: "Groups"}
       },
       status: {
         type: Sequelize.ENUM,
