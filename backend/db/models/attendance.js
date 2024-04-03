@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Attendance.belongsTo(models.User, {foreignKey: "userId"})
 
-      // Attendance.belongsTo(models.Event, {foreignKey: "eventId"})
+      Attendance.belongsTo(models.Event, {foreignKey: "eventId"})
     }
   }
   Attendance.init({

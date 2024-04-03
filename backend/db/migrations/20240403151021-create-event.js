@@ -16,12 +16,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       venueId: {
-        type: Sequelize.INTEGER//,
-        // references: {model: "Venues"}
+        type: Sequelize.INTEGER,
+        references: {model: "Venues"}
       },
       groupId: {
-        type: Sequelize.INTEGER//,
-        // references: {model: "Groups"}
+        type: Sequelize.INTEGER,
+        references: {model: "Groups"}
       },
       name: {
         type: Sequelize.STRING
