@@ -29,7 +29,7 @@ router.get("/", async(req, res, next)=>{
         createdAt: oup.createdAt,
         updatedAt:oup.updatedAt,
         numMembers: oup.Memberships.length,
-        previewImage: oup.GroupImages[0]
+        previewImage: oup.GroupImages[0].url
     })})
 
     let payload = {Groups: groups}

@@ -17,11 +17,13 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: {model: "Users"}
+        references: {model: "Users"},
+        onDelete: "SET NULL"
       },
       groupId: {
         type: Sequelize.INTEGER,
-        references: {model: "Groups"}
+        references: {model: "Groups"},
+        onDelete: "SET NULL"
       },
       status: {
         type: Sequelize.ENUM,
