@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'Venue',
     defaultScope: {
       attributes: {
-        exclude: ["lng", "lat", "createdAt", "updatedAt"]
+        exclude: ["createdAt", "updatedAt"]
       }
     }
   });

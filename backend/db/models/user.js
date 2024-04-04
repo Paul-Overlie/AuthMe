@@ -56,7 +56,7 @@ validate: {
     modelName: 'User',
     defaultScope: {
       attributes: {
-        exclude: ["hashedPassword", "email", "createdAt", "updatedAt"]
+        exclude: ["username", "hashedPassword", "email", "createdAt", "updatedAt"]
       }
     }
   });
