@@ -171,4 +171,49 @@ router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
     res.json(payload)
 })
 
+//Edit a Group
+router.put("/:groupId", requireAuth, async(req,res,next)=>{
+    let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
+    if(!group){
+        res.statusCode=404
+        res.json({message: "Group couldn't be found"})
+    }
+
+    //authorization
+    if(group.organizerId!==req.user.dataValues.id){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+          })
+    }
+
+    try{
+
+        let {name, about, type, private, city, state}=req.body
+        if(name){group.name=name}
+        if(about){group.about=about}
+        if(type){group.type=type}
+        if(private){group.private=private}
+        if(city){group.city=city}
+        if(state){group.state=state}
+        await group.save()
+        
+        res.statusCode=200
+        res.json(group)
+    } catch(error){
+        res.statusCode=400
+        res.json({
+            "message": "Bad Request",
+            "errors": {
+              "name": "Name must be 60 characters or less",
+              "about": "About must be 50 characters or more",
+              "type": "Type must be 'Online' or 'In person'",
+              "private": "Private must be a boolean",
+              "city": "City is required",
+              "state": "State is required",
+            }
+          })
+    }
+    })
+    
 module.exports = router
