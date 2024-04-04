@@ -10,9 +10,9 @@ const router = express.Router()
 //Get all Groups
 router.get("/", async(req, res, next)=>{
     let memberCount = await Membership.count()
-    console.log("memberCount", memberCount)
+    // console.log("memberCount", memberCount)
     let group = await Group.unscoped().findAll({
-        include: [Membership, GroupImage]
+        include: [Membership, GroupImage.unscoped()]
     })
     
     let groups = []
@@ -29,7 +29,7 @@ router.get("/", async(req, res, next)=>{
         createdAt: oup.createdAt,
         updatedAt:oup.updatedAt,
         numMembers: oup.Memberships.length,
-        previewImage: oup.GroupImages[0].url
+        previewImage: oup.GroupImages[0]
     })})
 
     let payload = {Groups: groups}
@@ -214,6 +214,30 @@ router.put("/:groupId", requireAuth, async(req,res,next)=>{
             }
           })
     }
-    })
+})
+
+    //Delete a Group
+router.delete("/:groupId", requireAuth, async(req,res,next)=>{
+    let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
+    if(!group){
+        res.statusCode=404
+        res.json({
+            "message": "Group couldn't be found"
+          })
+    }
+
+    //authorization
+    if(group.organizerId!==req.user.dataValues.id){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+          })
+    }
+    await group.destroy()
+    res.statusCode=200
+    res.json({
+        "message": "Successfully deleted"
+      })
+})
     
 module.exports = router

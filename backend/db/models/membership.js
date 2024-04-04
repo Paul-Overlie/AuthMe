@@ -11,9 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Membership.belongsTo(models.User, {foreignKey: "userId"})
+      Membership.belongsTo(models.User, {foreignKey: "userId",
+    onDelete: "SET NULL"})
 
-      Membership.belongsTo(models.Group, {foreignKey: "groupId"})
+      Membership.belongsTo(models.Group, {foreignKey: "groupId",
+    onDelete: "SET NULL"})
     }
   }
   Membership.init({
