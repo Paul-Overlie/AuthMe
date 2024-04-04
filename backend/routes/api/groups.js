@@ -138,4 +138,37 @@ router.post("/", requireAuth, async (req, res, next)=>{
     }
 })
 
+//Add an Image to a Group based on the Group's id
+router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
+    let group = await Group.findOne({where: {id: req.params.groupId}})
+    //no group from id
+    console.log("Group", group)
+    if(!group){
+        res.statusCode=404
+        res.json({message: "Group couldn't be found"})
+    }
+    //authorization
+    if(group.organizerId!==req.user.dataValues.id){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+          })
+    }
+
+    //creating image
+    let {url, preview}=req.body
+    let image = await GroupImage.create({
+        url,
+        preview,
+        groupId: req.params.groupId
+    })
+    let payload = {
+        id: image.id,
+        url: image.url,
+        preview: image.preview
+    }
+    res.statusCode=200
+    res.json(payload)
+})
+
 module.exports = router
