@@ -101,10 +101,41 @@ router.get("/:groupId", async (req, res, next)=>{
         
     })})
 
-    // let end = groups[0].Groups
-
     res.statusCode=200
     res.json(groups[0])
+})
+
+//Create a Group
+router.post("/", requireAuth, async (req, res, next)=>{
+    let {name, about, type, private, city, state}= req.body
+    try {let newGroup = await Group.create({
+        organizerId: req.user.dataValues.id,
+        name,
+        about,
+        type,
+        private,
+        city,
+        state
+    })
+    console.log(newGroup)
+    
+    res.statusCode = 201
+    res.json(newGroup)
+}
+    catch(error){
+        res.statusCode=400
+        res.json({
+            "message": "Bad Request",
+            "errors": {
+              "name": "Name must be 60 characters or less",
+              "about": "About must be 50 characters or more",
+              "type": "Type must be 'Online' or 'In person'",
+              "private": "Private must be a boolean",
+              "city": "City is required",
+              "state": "State is required",
+            }
+          })
+    }
 })
 
 module.exports = router

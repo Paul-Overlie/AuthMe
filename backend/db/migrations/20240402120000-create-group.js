@@ -27,7 +27,7 @@ module.exports = {
       },
       type: {
         type: Sequelize.ENUM,
-        values: ["red", "yellow", "blue"]
+        values: ["In person", "Online"]
       },
       private: {
         type: Sequelize.BOOLEAN
