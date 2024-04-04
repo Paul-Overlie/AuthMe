@@ -239,5 +239,25 @@ router.delete("/:groupId", requireAuth, async(req,res,next)=>{
         "message": "Successfully deleted"
       })
 })
+
+//create a new venue for a group by id
+router.get("/:groupId/venues", requireAuth, async(req, res, next)=>{
+    let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
+    if(!group){res.statusCode = 404
+    res.json({message: "Group couldn't be found"})}
+    //authorization
+    if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+          })
+    }
+
+    let venues = await Venue.findAll({where:{id:group.id}})
+    let payload = {Venues: venues}
+    res.statusCode = 200
+    res.json(payload)
+
+})
     
 module.exports = router
