@@ -445,5 +445,41 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         }
 
     })
+
+    //Request a Membership for a Group based on the Group's id
+    router.post("/:groupId/membership", requireAuth, async(req,res)=>{
+        let group = await Group.findOne({where:{id:req.params.groupId}})
+        if(!group){res.statusCode=404
+        res.json({message: "Group couldn't be found"})}
+        let user = await User.findOne({where:{id:req.user.dataValues.id},
+        include: [Membership]})
+
+        let inProcess = false
+        let inGroup = false
+        user.Memberships.forEach((member)=>{
+            if(member.status === "pending" && member.groupId === +req.params.groupId){
+                inProcess=true
+            }
+            if(member.status === "member"||member.status === "co-host" && member.groupId === +req.params.groupId)
+            {inGroup = true}
+        })
+        if(inGroup === true){res.statusCode = 400
+        res.json({message: "User is already a member of the group"})}
+        if(inProcess===true){res.statusCode=400
+        res.json({message: "Membership has already been requested"})}
+
+
+        let mem = await Membership.create({
+            userId: req.user.dataValues.id,
+            groupId: +req.params.groupId,
+            status: "pending"
+        })
+        let payload = {
+            memberId:mem.id,
+            status:mem.status
+        }
+        res.statusCode = 200
+        res.json(mem)
+    })
     
     module.exports = router
