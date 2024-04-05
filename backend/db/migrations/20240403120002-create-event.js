@@ -33,13 +33,13 @@ module.exports = {
       },
       type: {
         type: Sequelize.ENUM,
-        values: ["outdoor", "indoor"]
+        values: ["Online", "In person"]
       },
       capacity: {
         type: Sequelize.INTEGER
       },
       price: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       startDate: {
         type: Sequelize.DATE
