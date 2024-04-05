@@ -398,5 +398,52 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     }
         
     })
+
+    //Get all Members of a Group specified by its id
+    router.get("/:groupId/members", async(req,res)=>{
+        let group = await Group.findOne({where:{id:req.params.groupId},
+        include: [Membership]})
+        if(!group){
+            res.statusCode=404
+            res.json({message: "Group couldn't be found"})
+        }
+        let members = await Membership.findAll({where:{groupId:req.params.groupId},
+        include: [User]})
+
+        let elite = false
+        if(req.user.dataValues.id===group.organizerId){elite=true}
+        group.Memberships.forEach((member)=>{
+            if(req.user.dataValues.id===member.userId&&member.status==="co-host")
+            {elite=true}
+        })
+        console.log(elite, group.organizerId)
+        if(elite===true){
+            let eliteReturn = {Members: []}
+            members.forEach((dude)=>{
+                eliteReturn.Members.push({
+                    id:dude.User.id,
+                    firstName:dude.User.firstName,
+                    lastName:dude.User.lastName,
+                    Membership: {status:dude.status}
+                })
+            })
+            res.statusCode=200
+            res.json(eliteReturn)
+        } else {
+            let normalReturn = {Members: []}
+            members.forEach((dude)=>{
+                if(dude.status!=="pending")
+                {normalReturn.Members.push({
+                    id:dude.User.id,
+                    firstName:dude.User.firstName,
+                    lastName:dude.User.lastName,
+                    Membership: {status:dude.status}
+                })}
+            })
+            res.statusCode=200
+            res.json(normalReturn)
+        }
+
+    })
     
     module.exports = router
