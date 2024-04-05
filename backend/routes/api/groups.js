@@ -1,6 +1,6 @@
 const express = require('express')
 const bcrypt = require('bcryptjs')
-const {Group, GroupImage, Membership, Venue, User}=require("../../db/models")
+const {Group, GroupImage, Membership, Venue, User, Attendance, EventImage, Event}=require("../../db/models")
 const Sequelize = require("sequelize")
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
@@ -309,6 +309,41 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             }
           })
     }
+    })
+
+    router.get("/:groupId/events", async (req,res)=>{
+        let tester = await Group.findOne({where:{id:req.params.groupId}})
+        if(!tester){
+            res.statusCode=404
+            res.json({message: "Group couldn't be found"})
+        }
+
+        let events = await Event.findAll({where:{groupId:req.params.groupId},
+        include: [Attendance, Group, Venue, EventImage]})
+        // let attendees = await Attendance.findAll({where:{eventId:events.id}})
+        // let groups = await Group.findAll({where:{id:req.params.id}})
+        // let venues = await Venue.findAll({where: {}})
+        let stuff =[]
+
+    events.forEach((event)=>{
+        stuff.push({
+        id: event.id,
+        groupId: event.groupId,
+        venueId: event.venueId,
+        name: event.name,
+        type: event.type,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        numAttending: event.Attendances.length,
+        previewImage: event.EventImages[0].url,
+        Group: event.Group,
+        Venue: event.Venue
+    })})
+    
+    let payload = {Events: stuff}
+
+    res.statusCode = 200
+    res.json(payload)
     })
     
     module.exports = router
