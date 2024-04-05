@@ -56,7 +56,7 @@ router.post(
       })
       console.log("username", username, "namedUsername", namedUser)
 
-      if(namedUser.username===username) {
+      if(namedUser&&namedUser.username===username) {
         let nameErr={}
         res.status=400
         nameErr.message = "Bad Request",
