@@ -147,6 +147,7 @@ router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
         res.statusCode=404
         res.json({message: "Group couldn't be found"})
     }
+    console.log("userId:", req.user.dataValues.id, "organizerId:", group.organizerId)
     //authorization
     if(group.organizerId!==req.user.dataValues.id){
         res.statusCode=403
