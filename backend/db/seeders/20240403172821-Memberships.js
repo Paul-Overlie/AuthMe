@@ -24,15 +24,15 @@ module.exports = {
    await Membership.bulkCreate([
     {userId: 1,
     groupId: 2,
-    status: "Gold"},
+    status: "co-host"},
 
     {userId: 2,
     groupId: 3,
-    status: "Silver"},
+    status: "co-host"},
 
     {userId: 3,
     groupId: 1,
-    status: "Bronze"}
+    status: "member"}
    ])
   },
 

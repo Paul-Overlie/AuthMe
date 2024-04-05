@@ -27,7 +27,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ["Bronze", "Silver", "Gold"]
+        values: ["member", "co-host"]
       },
       createdAt: {
         allowNull: false,
