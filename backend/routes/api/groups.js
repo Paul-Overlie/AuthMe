@@ -311,6 +311,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     }
     })
 
+    //Get all Events of a Group specified by its id
     router.get("/:groupId/events", async (req,res)=>{
         let tester = await Group.findOne({where:{id:req.params.groupId}})
         if(!tester){
