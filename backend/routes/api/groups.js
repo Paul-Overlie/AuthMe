@@ -537,5 +537,39 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         res.json(response)
 
     })
+
+    //Delete membership to a group specified by id
+    router.delete("/:groupId/membership/:memberId", requireAuth, async(req,res)=>{
+        let group = await Group.findOne({where:{id:req.params.groupId}})
+        if(!group){res.statusCode=404
+        res.json({message: "Group couldn't be found"})}
+        let user = await User.findOne({where:{id:req.params.memberId}})
+        if(!user){res.statusCode=404
+        res.json({message: "User couldn't be found"})}
+        let membership = await Membership.findOne({where:{userId:req.params.memberId,
+            groupId: group.id}})
+        if(!membership){res.statusCode=404
+        res.json({message: "Membership does not exist for this User"})}
+
+        
+
+        if(req.user.dataValues.id!==group.organizerId||req.user.dataValues.id!==membership.userId){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+          })
+    }
+    console.log("group:", group, "User:", user,
+    "membership:", membership)
+
+    
+
+    await membership.destroy()
+    res.statusCode=200
+    res.json({
+        "message": "Successfully deleted membership from group"
+      })
+
+    })
     
     module.exports = router
