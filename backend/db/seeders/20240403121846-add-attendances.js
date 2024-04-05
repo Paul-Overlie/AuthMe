@@ -24,13 +24,13 @@ module.exports = {
    await Attendance.bulkCreate([
     {eventId: 3,
     userId: 1,
-    status: "present"},
+    status: "attendee"},
     {eventId: 2,
     userId: 3,
-    status: "present"},
+    status: "host"},
     {eventId: 1,
     userId: 2,
-    status: "absent"}
+    status: "co-host"}
    ])
   },
 

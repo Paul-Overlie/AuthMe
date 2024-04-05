@@ -77,4 +77,37 @@ router.get("/:eventId", async(req,res)=>{
     res.json(payload)
 })
 
+//Add an Image to an Event based on the Event's id
+router.post("/:eventId/images", requireAuth, async(req,res)=>{
+    let event = await Event.unscoped().findOne({where: {id: req.params.eventId}})
+    
+    if(!event){res.statusCode = 404
+        res.json({message: "Event couldn't be found"})}
+        
+        let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id, eventId:event.id}})
+    //authorization
+    if(!attendance){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+          })
+    }
+
+    let {url, preview}=req.body
+    let img = await EventImage.create({
+        url,
+        preview,
+        eventId: req.params.eventId
+    })
+
+    let payload = {
+        id: img.id,
+        url: img.url,
+        preview: img.preview
+    }
+
+    res.statusCode=200
+    res.json(payload)
+})
+
 module.exports = router
