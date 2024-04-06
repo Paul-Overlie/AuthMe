@@ -380,9 +380,22 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             endDate,
             groupId:+req.params.groupId
         })
+
+        let payload = {
+            id:event.id,
+            groupId:event.groupId,
+            venueId:event.id,
+            name:event.name,
+            type:event.type,
+            capacity:event.capacity,
+            price:event.price,
+            description:event.description,
+            startDate:event.startDate,
+            endDate:event.endDate
+        }
         
         res.statusCode = 200
-        res.json(event)
+        res.json(payload)
     } catch (err) {
         res.statusCode =400
         res.json({
