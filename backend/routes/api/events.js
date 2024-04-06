@@ -198,4 +198,54 @@ router.delete("/:eventId", requireAuth, async(req,res)=>{
     res.json({message: "Successfully deleted"})
 })
 
+//Get all Attendees of an Event specified by its id
+router.get("/:eventId/attendees", async(req,res)=>{
+    let event = await Event.findOne({where:{id:req.params.eventId}})
+    if(!event){res.statusCode=404
+    res.json({message:"Event couldn't be found"})}
+    let group = await Group.findOne({where:{id:event.groupId},
+    include:[Membership]})
+    let attendance = await Attendance.findAll({where:{eventId:req.params.eventId},
+    include: [User]})
+    console.log("userId:",req.user.dataValues.id,"organizerId:",group.organizerId)
+
+    //is organizer or a co-host
+        let elite = false
+        if(group&&req.user.dataValues.id===group.organizerId){elite=true}
+        group.Memberships.forEach((member)=>{
+            if(member.userId===req.user.dataValues.id&&member.status==="co-host")
+            {elite=true}
+        })
+        if(elite===true){
+            let attend = {Attendees: []}
+            attendance.forEach((at)=>{
+                attend.Attendees.push({
+                    id:at.User.id,
+                    firstName:at.User.firstName,
+                    lastName:at.User.lastName,
+                    Attendance: {status:at.status}
+                })
+            })
+            res.statusCode=200
+            res.json(attend)
+
+        } else if(elite===false){
+            let attends = {Attendees: []}
+            attendance.forEach((att)=>{
+                if(att.status!=="pending"){
+                    attends.Attendees.push({
+                        id:att.User.id,
+                        firstName:att.User.firstName,
+                        lastName:att.User.lastName,
+                        Attendance: {status:att.status}
+                    })
+                    res.statusCode=200
+                    res.json(attends)
+                }
+                
+            })
+        }
+
+})
+
 module.exports = router
