@@ -57,11 +57,13 @@ router.post(
       // console.log("username", username, "namedUsername", namedUser)
 
       if(namedUser&&namedUser.username===username) {
-        let nameErr={}
+        let nameErr={
+          message: "User already exists",
+          errors: {
+            username: "User with that username already exists"
+          }
+        }
         res.statusCode=500
-        nameErr.message = "Bad Request",
-        nameErr.errors={message: "User already exists",
-      errors: {username: "User with that username already exists"}}
         res.json(nameErr)
       }
       try{
