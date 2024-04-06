@@ -19,11 +19,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   Venue.init({
     groupId: DataTypes.INTEGER,
-    address: DataTypes.STRING,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING,
-    lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL
+    address: {type:DataTypes.STRING,
+      allowNull:false},
+    city: {type:DataTypes.STRING,
+      allowNull: false},
+    state: {type:DataTypes.STRING,
+      allowNull: false},
+    lat: {type:DataTypes.DECIMAL,
+      validate: {
+        max:90,
+        min:-90
+      }},
+    lng: {type:DataTypes.DECIMAL,
+      validate: {
+        max:180,
+        min:-180}
+      }
   }, {
     sequelize,
     modelName: 'Venue',
