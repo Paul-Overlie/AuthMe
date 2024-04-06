@@ -24,7 +24,7 @@ const validateLogin = [
 // Log in
 router.post(
     '/',
-    validateLogin,
+    // validateLogin,
     async (req, res, next) => {
       const { credential, password } = req.body;
   
@@ -91,15 +91,17 @@ router.delete(
   // Restore session user
 router.get(
     '/',
-    (req, res) => {
+    async (req, res) => {
       const { user } = req;
       if (user) {
+        let use = await User.unscoped().findOne({where:{id:user.id}})
+        console.log("Use:", use)
         const safeUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          username: user.username,
+          id: use.id,
+          firstName: use.firstName,
+          lastName: use.lastName,
+          email: use.email,
+          username: use.username,
         };
         return res.json({
           user: safeUser
