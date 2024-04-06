@@ -28,14 +28,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   Group.init({
     organizerId: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    about: DataTypes.STRING,
+    name: { type: DataTypes.STRING(60),
+      validate: {
+        len: [0, 60]
+      }},
+    about: {type: DataTypes.STRING,
+      validate: {
+        len: [50, 1000000000]
+      }},
     type: {
       type: DataTypes.ENUM,
       values: ["In person", "Online"]},
     private: DataTypes.BOOLEAN,
-    city: DataTypes.STRING,
-    state: DataTypes.STRING
+    city: {type: DataTypes.STRING,
+      allowNull: false},
+    state: {type: DataTypes.STRING,
+      allowNull:false}
   }, {
     sequelize,
     modelName: 'Group',

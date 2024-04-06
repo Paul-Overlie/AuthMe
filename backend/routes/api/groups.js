@@ -17,7 +17,8 @@ router.get("/", async(req, res, next)=>{
     
     let groups = []
 
-    group.forEach((oup)=>{groups.push({
+    group.forEach((oup)=>{
+        groups.push({
         id:oup.id,
         organizerId: oup.organizerId,
         name: oup.name,

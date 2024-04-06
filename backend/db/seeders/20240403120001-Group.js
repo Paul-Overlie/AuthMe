@@ -24,7 +24,7 @@ module.exports = {
    await Group.bulkCreate([
     {organizerId: 1,
     name: "Small",
-    about: "Just a little guy",
+    about: "Just a little guyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     type: "In person",
     private: true,
     city: "Houston",
@@ -32,7 +32,7 @@ module.exports = {
 
     {organizerId: 3,
     name: "Medium",
-    about: "Center of the pack",
+    about: "Center of the packaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     type: "Online",
     private: false,
     city: "Dallas",
@@ -40,7 +40,7 @@ module.exports = {
 
     {organizerId: 2,
     name: "Large",
-    about: "Fee fi fo",
+    about: "Fee fi foaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     type: "In person",
     private: false,
     city: "Atlanta",
