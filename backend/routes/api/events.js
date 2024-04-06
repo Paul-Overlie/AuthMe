@@ -354,4 +354,35 @@ router.put("/:eventId/attendance", requireAuth, async(req,res)=>{
     res.json(payload)
 })
 
+router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
+    let event = await Event.findOne({where:{id:req.params.eventId},
+    include: [Group]})
+    if(!event){res.statusCode=404
+    res.json({message: "Event couldn't be found"})}
+    let user = await User.findOne({where:{id:req.params.userId}})
+    if(!user){res.statusCode=404
+    res.json({message: "User couldn't be found"})}
+
+    //authorize
+    let auth = false
+    if(event.Group.organizerId===req.user.dataValues.id){auth=true}
+    if(req.params.userId===req.user.dataValues.id){auth=true}
+    if(auth===false){
+        res.statusCode=403
+        res.json({
+            "message": "Forbidden"
+        })
+    }    
+    let attendance = await Attendance.findOne({where:{userId:req.params.userId,
+    eventId:req.params.eventId}})
+    if(!attendance){req.statusCode=404
+    res.json({message: "Attendance does not exist for this User"})}
+    await attendance.destroy()
+
+    res.statusCode=200
+    res.json({
+        "message": "Successfully deleted attendance from event"
+      })
+})
+
 module.exports = router
