@@ -66,6 +66,7 @@ router.put("/venues/:venueId", requireAuth, async(req,res,next)=>{
       })}
     })
 
+    //delete group image by id
     router.delete("/group-images/:imageId", requireAuth, async(req,res)=>{
         let groupImage = await GroupImage.findOne({where:{id:req.params.imageId},
         include: Group})
@@ -96,6 +97,7 @@ router.put("/venues/:venueId", requireAuth, async(req,res,next)=>{
         res.json({message:"Successfully deleted"})
     })
 
+    //delete event image by id
     router.delete("/event-images/:imageId", requireAuth, async(req,res)=>{
         let eventImage = await EventImage.findOne({where:{id:req.params.imageId},
         include: [Event]})

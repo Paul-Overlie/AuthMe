@@ -24,7 +24,7 @@ const validateLogin = [
 // Log in
 router.post(
     '/',
-    validateLogin,
+    // validateLogin,
     async (req, res, next) => {
       const { credential, password } = req.body;
   
@@ -38,21 +38,29 @@ router.post(
       });
   
       if (!bcrypt.compareSync(password, user.hashedPassword.toString())) {
-        const err = new Error('Login failed');
-        err.status = 401;
-        err.title = 'Login failed';
-        err.errors = { credential: 'The provided credentials were invalid.' };
-        return next(err);
+        res.statusCode=401
+        res.json({message: "Invalid credentials"})
+        // const err = new Error('Login failed');
+        // err.status = 401;
+        // err.title = 'Login failed';
+        // err.errors = { credential: 'The provided credentials were invalid.' };
+        // return next(err);
       }
 
       if (!user) {
-        const error = new Error('Bad Request')
-        error.status = 400
-        error.message = 'Bad Request'
-        error.password = 'Password is required'
-        error.credential = 'Email or username is required'
-        console.log("error here", error)
-        return next(error)
+        res.statusCode=400
+        res.json({
+          message: "Bad Request",
+          errors: {credential: "Email or username is required",
+                  password: "Password is required"}
+        })
+        // const error = new Error('Bad Request')
+        // error.status = 400
+        // error.message = 'Bad Request'
+        // error.password = 'Password is required'
+        // error.credential = 'Email or username is required'
+        // console.log("error here", error)
+        // return next(error)
       }
   
       const safeUser = {
@@ -83,15 +91,17 @@ router.delete(
   // Restore session user
 router.get(
     '/',
-    (req, res) => {
+    async (req, res) => {
       const { user } = req;
       if (user) {
+        let use = await User.unscoped().findOne({where:{id:user.id}})
+        console.log("Use:", use)
         const safeUser = {
-          id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          email: user.email,
-          username: user.username,
+          id: use.id,
+          firstName: use.firstName,
+          lastName: use.lastName,
+          email: use.email,
+          username: use.username,
         };
         return res.json({
           user: safeUser
