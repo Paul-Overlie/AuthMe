@@ -58,14 +58,10 @@ router.post(
 
       if(namedUser&&namedUser.username===username) {
         let nameErr={}
-        res.statusCode=400
+        res.statusCode=500
         nameErr.message = "Bad Request",
-        nameErr.errors={
-          email: "Invalid email",
-          username: "Username is required",
-          firstName: "First Name is required",
-          lastName: "Last Name is required"
-        }
+        nameErr.errors={message: "User already exists",
+      errors: {username: "User with that username already exists"}}
         res.json(nameErr)
       }
       try{
