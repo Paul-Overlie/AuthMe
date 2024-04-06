@@ -25,8 +25,12 @@ module.exports = (sequelize, DataTypes) => {
   Event.init({
     venueId: DataTypes.INTEGER,
     groupId: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    name: {type:DataTypes.STRING,
+    validate: {
+      len: [5,1000000000]
+    }},
+    description: {type:DataTypes.STRING,
+    allowNull: false},
     type: {
       type: DataTypes.ENUM,
       values: ["Online", "In person"]},
