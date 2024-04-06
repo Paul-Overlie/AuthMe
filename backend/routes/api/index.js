@@ -4,7 +4,7 @@ const { restoreUser, requireAuth } = require('../../utils/auth.js');
 const sessionRouter = require('./session.js')
 const usersRouter = require('./users.js')
 const groupsRouter = require('./groups.js')
-const {Venue, Group} = require("../../db/models")
+const {Venue, Group, GroupImage, User, Membership} = require("../../db/models")
 const eventsRouter = require("./events.js")
 
 router.use(restoreUser);
@@ -64,6 +64,36 @@ router.put("/venues/:venueId", requireAuth, async(req,res,next)=>{
           "lng": "Longitude must be within -180 and 180",
         }
       })}
+    })
+
+    router.delete("/group-images/:imageId", requireAuth, async(req,res)=>{
+        let groupImage = await GroupImage.findOne({where:{id:req.params.imageId},
+        include: Group})
+        if(!groupImage){res.statusCode=404
+        res.json({
+            "message": "Group Image couldn't be found"
+          })}
+
+        let group = await Group.findOne({where:{id:groupImage.Group.id},
+        include: Membership})
+
+        //authorize
+        let auth  = false
+        if(group.organizerId===req.user.dataValues.id){auth=true}
+        group.Memberships.forEach((member)=>{
+            if(member.userId===req.user.dataValues.id&&member.status==="co-host")
+            {auth=true}
+        })
+        if(auth===false){
+            res.statusCode=403
+            res.json({
+                "message": "Forbidden"
+            })
+        }  
+        await groupImage.destroy()
+
+        res.statusCode=200
+        res.json({message:"Successfully deleted"})
     })
     
     module.exports = router;
