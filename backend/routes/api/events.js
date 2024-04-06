@@ -16,6 +16,25 @@ router.get("/", async(req,res)=>{
     let events =[]
 
     origin.forEach((event)=>{
+        // console.log("Group:", event.Group, "Venue:",event.Venue)
+        // console.log("PASSED HERE")
+        let gru = null
+        if(event.Group){
+            gru = {
+                id:event.Group.id,
+                name:event.Group.name,
+                city:event.Group.city,
+                state:event.Group.state
+            }
+        }
+        let ven = null
+        if(event.Venue){
+            ven = {
+                id:event.Venue.id,
+                city:event.Venue.city,
+                state:event.Venue.state
+            }
+        }
         // console.log("events", event.dataValues)
         events.push({
         id: event.id,
@@ -27,8 +46,8 @@ router.get("/", async(req,res)=>{
         endDate: event.endDate,
         numAttending: event.Attendances.length,
         previewImage: event.EventImages[0].url,
-        Group: event.Group,
-        Venue: event.Venue
+        Group: gru,
+        Venue: ven
     })})
     
     let payload = {Events: events}
