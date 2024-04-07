@@ -532,15 +532,20 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         //   console.log("Group:", group)
 
         let {memberId, status}=req.body
-
-        let membership = await Membership.findOne({where:{id:memberId,
-        groupId: group.id}})
+        
+        let membership = await Membership.findOne({where:{userId:memberId,
+            groupId: group.id}})
+            console.log("memberId:",memberId,"group.id:",group.id,"membership:",membership)
 
         let member = await Membership.findOne({where:{userId:memberId}})
-        console.log("Status:",status, "membership.status:", membership.status, "group.organizerId",group.organizerId, "req.user.dataValues.id", req.user.dataValues.id)
+        // console.log("Status:",status, "membership.status:", membership.status, "group.organizerId",group.organizerId, "req.user.dataValues.id", req.user.dataValues.id)
         //authorization
-        let memAuth = false
-        let hostAuth = false
+        let memAuth = true
+        let hostAuth = true
+
+        if(status==="member"&&membership.status==="pending"){memAuth=false}
+        if(status==="co-host"&&member.status==="member"){hostAuth=false}
+
     if((status==="member"&&membership.status==="pending")&&group.organizerId===req.user.dataValues.id){memAuth=true}
     if((status==="member"&&membership.status==="pending")&&membership.status==="co-host"){memAuth=true}
 

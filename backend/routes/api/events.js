@@ -35,6 +35,11 @@ router.get("/", async(req,res)=>{
                 state:event.Venue.state
             }
         }
+        let prev = []
+        event.EventImages.forEach((img)=>{
+            if(img.preview===true){prev.push(img.url)}
+        })
+        if(prev[0]){prev=prev[0]}else{prev=null}
         // console.log("events", event.dataValues)
         events.push({
         id: event.id,
@@ -45,7 +50,7 @@ router.get("/", async(req,res)=>{
         startDate: event.startDate,
         endDate: event.endDate,
         numAttending: event.Attendances.length,
-        previewImage: event.EventImages[0].url,
+        previewImage: prev,
         Group: gru,
         Venue: ven
     })})
@@ -122,7 +127,8 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
             {auth=true}
         }
     if(attendance&&attendance.status==="attending"){auth=true}
-    if(event.Group.organizerId===req.user.dataValues.id){auth=true}
+    if(event.Group)
+    {if(event.Group.organizerId===req.user.dataValues.id){auth=true}}
     if(auth===false){
         res.statusCode=403
         res.json({
