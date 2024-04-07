@@ -121,13 +121,13 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
         let auth = false
         let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id, eventId:event.id}})
         let membership
-        if(event.Group){
-            membership = await Membership.findOne({where:{groupId:event.Group.id}})
+        
+            membership = await Membership.findOne({where:{groupId:event.groupId}})
             // console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id)
             if(membership)
             {if(membership.status==="co-host"&&membership.userId===req.user.dataValues.id)
             {auth=true}}
-        }
+        
     if(attendance&&attendance.status==="attending"){auth=true}
     if(event.Group)
     {if(event.Group.organizerId===req.user.dataValues.id){auth=true}}
@@ -329,7 +329,7 @@ router.post("/:eventId/attendance", requireAuth, async(req,res)=>{
         // "memberId:", member.userId,
         // "status:",member.status)
         if(member)
-        {if(req.user.dataValues.id===member.userId){auth=true}}
+        {if(req.user.dataValues.id===member.userId&&(member.status==="co-host"||member.status==="member")){auth=true}}
 
         // console.log("current user:",req.user.dataValues.id,"userId:",attendance.userId,"status:",attendance.status)
         if(attendance)

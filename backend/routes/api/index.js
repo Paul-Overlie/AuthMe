@@ -33,10 +33,16 @@ router.put("/venues/:venueId", requireAuth, async(req,res,next)=>{
         res.statusCode=404
         return res.json({message: "Venue couldn't be found"})
     }
+    let mem = await Membership.findOne({where:{userId:req.user.dataValues.id,
+    groupId:ven.groupId}})
     try{
         let group = await Group.findOne({where:{id:ven.groupId}})
         //authorization
-        if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
+        let auth = false
+        if(group.organizerId===req.user.dataValues.id){auth=true}
+        if(mem)
+        {if(mem.status==="co-host"){auth=true}}
+            if(auth===false){
             res.statusCode=403
             return res.json({
                 "message": "Forbidden"
