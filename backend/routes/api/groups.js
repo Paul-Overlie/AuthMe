@@ -273,8 +273,14 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
     return res.json({message: "Group couldn't be found"})}
+    let member = await Membership.findOne({where:{userId:req.user.dataValues.id,
+    groupId:group.id}})
     //authorization
-    if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
+    let auth = false
+    if(group.organizerId===req.user.dataValues.id){auth=true}
+    if(member)
+    {if(member.status==="co-host"){auth=true}}
+        if(auth===false){
         res.statusCode=403
         return res.json({
             "message": "Forbidden"
@@ -538,28 +544,28 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         //   console.log("Group:", group)
 
         let {memberId, status}=req.body
+        console.log("userId:",req.user.dataValues.id,"groupId:",req.params.groupId)
         
-        let membership = await Membership.findOne({where:{userId:memberId,
-            groupId: group.id}})
-            if(!membership){
+        let member = await Membership.findOne({where:{userId:req.user.dataValues.id,
+            groupId: req.params.groupId}})
+            if(!member){
                 res.statusCode=404
                 return res.json({message: "Membership between the user and the group does not exist"})
             }
             // console.log("memberId:",memberId,"group.id:",group.id,"membership:",membership)
 
+            let membership = await Membership.findOne({where:{userId:memberId,
+            groupId:req.params.groupId}})
         
         //authorization
-        let memAuth = true
-        let hostAuth = true
+        let memAuth = false
+        let hostAuth = false
 
         if(membership)
-        {if(status==="member"&&membership.status==="pending"){memAuth=false}
-        if(status==="co-host"){hostAuth=false}
-
-    if((status==="member"&&membership.status==="pending")&&group.organizerId===req.user.dataValues.id){memAuth=true}
+        {if((status==="member"&&membership.status==="pending")&&group.organizerId===req.user.dataValues.id){memAuth=true}
     if((status==="member"&&membership.status==="pending")&&membership.status==="co-host"){memAuth=true}}
 
-    if(status==="co-host"&&group.organizerId===req.user.dataValues.id){hostAuth=true}
+    if(group.organizerId===req.user.dataValues.id){hostAuth=true}
     if(memAuth===false&&hostAuth===false){
         res.statusCode=403
         return res.json({
