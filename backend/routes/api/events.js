@@ -115,7 +115,7 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
     include: [Group]})
     
     if(!event){res.statusCode = 404
-        res.json({message: "Event couldn't be found"})}
+        return res.json({message: "Event couldn't be found"})}
 
         //authorization
         let auth = false
@@ -123,6 +123,7 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
         let membership
         if(event.Group){
             membership = await Membership.findOne({where:{groupId:event.Group.id}})
+            console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id)
             if(membership.status==="co-host"&&membership.userId===req.user.dataValues.id)
             {auth=true}
         }
@@ -131,15 +132,15 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
     {if(event.Group.organizerId===req.user.dataValues.id){auth=true}}
     if(auth===false){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
 
     let {url, preview}=req.body
     let img = await EventImage.create({
-        url,
-        preview,
+        url: url,
+        preview: preview,
         eventId: req.params.eventId
     })
 
@@ -160,6 +161,8 @@ router.put("/:eventId", requireAuth, async(req,res)=>{
     res.json({message: "Event couldn't be found"})}
     let group = await Group.findOne({where: {id:event.groupId},
     include: [Membership]})
+    let attend = await Attendance.findOne({where:{eventId:req.params.eventId,
+    userId:req.user.dataValues.id}})
     
     //authorize
     let auth=false
@@ -168,6 +171,8 @@ router.put("/:eventId", requireAuth, async(req,res)=>{
         {auth=true}
     })
     if(req.user.dataValues.id===group.organizerId){auth=true}
+    if(attend)
+    {if(attend.status==='attending'){auth=true}}
     if(auth===false){
         res.statusCode=403
         res.json({

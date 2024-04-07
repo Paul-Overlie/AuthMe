@@ -44,6 +44,7 @@ module.exports = {
     endDate: "1-1-2025"},
 
     {venueId: 2,
+      groupId:3,
     name: "apple bobbing",
     description: "...you bob for apples",
     type: "In person",
@@ -53,6 +54,7 @@ module.exports = {
     endDate: "5/5/2024"},
 
     {venueId: 1,
+      groupId:1,
       name: "Happy Birthday",
       description: "pinata time babyssssss",
       type: "In person",
@@ -62,6 +64,7 @@ module.exports = {
       endDate: "6/5/2024"},
 
       {venueId: 2,
+        groupId:2,
         name: "carrot bobbing",
         description: "...you bob for carrots",
         type: "Online",
