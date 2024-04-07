@@ -107,26 +107,35 @@ router.put("/venues/:venueId", requireAuth, async(req,res,next)=>{
 
     //delete event image by id
     router.delete("/event-images/:imageId", requireAuth, async(req,res)=>{
-        let eventImage = await EventImage.findOne({where:{id:req.params.imageId},
+        let auth = false
+        let eventImage
+        let group
+        if(Number.isInteger(+req.params.imageId))
+        {eventImage = await EventImage.findOne({where:{id:req.params.imageId},
         include: [Event]})
+
+        console.log("HITTING")
+
         if(!eventImage){res.statusCode=404
         return res.json({message: "Event Image couldn't be found"})}
-        let group = await Group.findOne({where:{id:eventImage.Event.groupId},
+
+        group = await Group.findOne({where:{id:eventImage.Event.groupId},
         include: [Membership]})
 
+
         //authorize
-        let auth = false
         if(group){
             if(group.organizerId===req.user.dataValues.id){auth=true}
             if(group.Memberships.userId===req.user.dataValues.id&&group.Memberships.status==="co-host")
             {auth=true}
-        }
+        }}
         if(auth===false){
             res.statusCode=403
             return res.json({
                 "message": "Forbidden"
             })
         }  
+        
         await eventImage.destroy()
 
         res.statusCode=200
