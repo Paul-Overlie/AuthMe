@@ -329,6 +329,30 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         let stuff =[]
 
     events.forEach((event)=>{
+        let prevImage = []
+        event.EventImages.forEach((image)=>{
+            // console.log("IMAGGEEEEE",image)
+            if(image.preview===true){prevImage.push(image.url)}
+        })
+
+        let gru = null
+        if(event.Group){
+            gru = {
+                id:event.Group.id,
+                name:event.Group.name,
+                city:event.Group.city,
+                state:event.Group.state
+            }
+        }
+        let ven = null
+        if(event.Venue){
+            ven = {
+                id:event.Venue.id,
+                city:event.Venue.city,
+                state:event.Venue.state
+            }
+        }
+
         stuff.push({
         id: event.id,
         groupId: event.groupId,
@@ -338,9 +362,9 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         startDate: event.startDate,
         endDate: event.endDate,
         numAttending: event.Attendances.length,
-        previewImage: event.EventImages[0].url,
-        Group: event.Group,
-        Venue: event.Venue
+        previewImage: prevImage[0],
+        Group: gru,
+        Venue: ven
     })})
     
     let payload = {Events: stuff}

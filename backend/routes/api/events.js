@@ -89,8 +89,16 @@ router.get("/:eventId", async(req,res)=>{
             state:event.Venue.state,
             lat:event.Venue.lat,
             lng:event.Venue.lng},
-        EventImages: event.EventImages
+        EventImages: []
     }
+
+    event.EventImages.forEach((img)=>{
+        payload.EventImages.push({
+            id:img.id,
+            url:img.url,
+            preview:img.preview
+        })
+    })
 
     res.statusCode=200
     res.json(payload)
@@ -98,14 +106,24 @@ router.get("/:eventId", async(req,res)=>{
 
 //Add an Image to an Event based on the Event's id
 router.post("/:eventId/images", requireAuth, async(req,res)=>{
-    let event = await Event.unscoped().findOne({where: {id: req.params.eventId}})
+    let event = await Event.unscoped().findOne({where: {id: req.params.eventId},
+    include: [Group]})
     
     if(!event){res.statusCode = 404
         res.json({message: "Event couldn't be found"})}
 
+        //authorization
+        let auth = false
         let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id, eventId:event.id}})
-    //authorization
-    if(!attendance){
+        let membership
+        if(event.Group){
+            membership = await Membership.findOne({where:{groupId:event.Group.id}})
+            if(membership.status==="co-host"&&membership.userId===req.user.dataValues.id)
+            {auth=true}
+        }
+    if(attendance&&attendance.status==="attending"){auth=true}
+    if(event.Group.organizerId===req.user.dataValues.id){auth=true}
+    if(auth===false){
         res.statusCode=403
         res.json({
             "message": "Forbidden"
@@ -168,9 +186,22 @@ router.put("/:eventId", requireAuth, async(req,res)=>{
     if(endDate)event.endDate=endDate
     try{
         await event.save()
+
+        let payload = {
+            id:event.id,
+            groupId:event.groupId,
+            venueId:event.venueId,
+            name:event.name,
+            type:event.type,
+            capacity:event.capacity,
+            price:event.price,
+            description:event.description,
+            startDate:event.startDate,
+            endDate:event.endDate
+        }
         
         res.statusCode=200
-        res.json(event)
+        res.json(payload)
     }catch(err){
         res.statusCode=400
         res.json({
