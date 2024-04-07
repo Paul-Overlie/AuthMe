@@ -118,6 +118,12 @@ router.post("/", requireAuth, async (req, res, next)=>{
         city,
         state
     })
+
+    let member = await Membership.create({
+        userId: req.user.dataValues.id,
+        groupId: newGroup.id,
+        status: "co-host"
+    })
     console.log(newGroup)
     
     res.statusCode = 201
@@ -514,7 +520,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             status: "pending"
         })
         let payload = {
-            memberId:mem.id,
+            memberId:mem.userId,
             status:mem.status
         }
         res.statusCode = 200
