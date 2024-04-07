@@ -545,7 +545,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
 
         if(membership)
         {if(status==="member"&&membership.status==="pending"){memAuth=false}
-        if(status==="co-host"&&member.status==="member"){hostAuth=false}
+        if(status==="co-host"){hostAuth=false}
 
     if((status==="member"&&membership.status==="pending")&&group.organizerId===req.user.dataValues.id){memAuth=true}
     if((status==="member"&&membership.status==="pending")&&membership.status==="co-host"){memAuth=true}}
