@@ -535,7 +535,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         
         let membership = await Membership.findOne({where:{userId:memberId,
             groupId: group.id}})
-            console.log("memberId:",memberId,"group.id:",group.id,"membership:",membership)
+            // console.log("memberId:",memberId,"group.id:",group.id,"membership:",membership)
 
         let member = await Membership.findOne({where:{userId:memberId}})
         // console.log("Status:",status, "membership.status:", membership.status, "group.organizerId",group.organizerId, "req.user.dataValues.id", req.user.dataValues.id)

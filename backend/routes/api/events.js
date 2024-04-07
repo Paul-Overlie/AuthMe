@@ -312,7 +312,8 @@ router.post("/:eventId/attendance", requireAuth, async(req,res)=>{
     let group = await Group.findOne({where:{id:event.groupId},
     include: [Membership]})
 
-    let attendance = await Attendance.findOne({where:{eventId:event.id}})
+    let attendance = await Attendance.findOne({where:{eventId:event.id,
+    userId:req.user.dataValues.id}})
 
     //authorize
     let auth=false
@@ -321,13 +322,17 @@ router.post("/:eventId/attendance", requireAuth, async(req,res)=>{
         // console.log("user:", req.user.dataValues.id,
         // "memberId:", member.userId,
         // "status:",member.status)
-        if(req.user.dataValues.id===member.userId){auth=true}
-        if(req.user.dataValues.id===attendance.userId&&attendance.status==="pending")
+        if(member)
+        {if(req.user.dataValues.id===member.userId){auth=true}}
+
+        // console.log("current user:",req.user.dataValues.id,"userId:",attendance.userId,"status:",attendance.status)
+        if(attendance)
+        {if(req.user.dataValues.id===attendance.userId&&attendance.status==="pending")
         {res.statusCode=400
         res.json({message:"Attendance has already been requested"})}
         if(req.user.dataValues.id===attendance.userId&&attendance.status==="attending")
         {res.statusCode=400
-        res.json({message: "User is already an attendee of the event"})}
+        res.json({message: "User is already an attendee of the event"})}}
     })
     if(auth===false){
         res.statusCode=403
@@ -349,7 +354,7 @@ router.post("/:eventId/attendance", requireAuth, async(req,res)=>{
     }
 
     res.statusCode=200
-    res.json(group)
+    res.json(payload)
 })
 
 //Change the status of an attendance for an event specified by id
