@@ -48,7 +48,7 @@ router.post(
         err.errors={
         email:"User with that email already exists"}
         console.log(err)
-        res.json(err)
+        return res.json(err)
       }
 
       let namedUser = await User.unscoped().findOne({
@@ -64,7 +64,7 @@ router.post(
           }
         }
         res.statusCode=500
-        res.json(nameErr)
+        return res.json(nameErr)
       }
       try{
         const user = await User.create({ firstName, lastName, email, username, hashedPassword });
