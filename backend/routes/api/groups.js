@@ -541,10 +541,13 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         
         let membership = await Membership.findOne({where:{userId:memberId,
             groupId: group.id}})
+            if(!membership){
+                res.statusCode=404
+                return res.json({message: "Membership between the user and the group does not exist"})
+            }
             // console.log("memberId:",memberId,"group.id:",group.id,"membership:",membership)
 
-        let member = await Membership.findOne({where:{userId:memberId}})
-        // console.log("Status:",status, "membership.status:", membership.status, "group.organizerId",group.organizerId, "req.user.dataValues.id", req.user.dataValues.id)
+        
         //authorization
         let memAuth = true
         let hostAuth = true
@@ -556,7 +559,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     if((status==="member"&&membership.status==="pending")&&group.organizerId===req.user.dataValues.id){memAuth=true}
     if((status==="member"&&membership.status==="pending")&&membership.status==="co-host"){memAuth=true}}
 
-    if((status==="co-host"&&member.status==="member")&&group.organizerId===req.user.dataValues.id){hostAuth=true}
+    if(status==="co-host"&&group.organizerId===req.user.dataValues.id){hostAuth=true}
     if(memAuth===false&&hostAuth===false){
         res.statusCode=403
         return res.json({
@@ -574,10 +577,6 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
           if(!user){res.statusCode=404
         return res.json({
             "message": "User couldn't be found"
-          })}
-        if(!membership){res.statusCode=404
-        return res.json({
-            "message": "Membership between the user and the group does not exist"
           })}
 
         // console.log("status:", status, "member:", membership)
