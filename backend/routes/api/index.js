@@ -52,6 +52,8 @@ router.put("/venues/:venueId", requireAuth, async(req,res,next)=>{
         await ven.save()
 
         let payload = {
+            id: ven.id,
+            groupId: ven.groupId,
             address: ven.address,
             city: ven.city,
             state: ven.state,

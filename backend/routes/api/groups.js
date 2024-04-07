@@ -362,7 +362,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         startDate: event.startDate,
         endDate: event.endDate,
         numAttending: event.Attendances.length,
-        previewImage: prevImage[0],
+        previewImage: prevImage[0]||null,
         Group: gru,
         Venue: ven
     })})
@@ -575,7 +575,8 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
           })}
 
         // console.log("status:", status, "member:", membership)
-        if(status){membership.status=status}
+        if(status){membership.status=status
+        await membership.save()}
         let response = {
             id:membership.userId,
             groupId: group.id,
@@ -592,11 +593,13 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         let group = await Group.findOne({where:{id:req.params.groupId}})
         if(!group){res.statusCode=404
         return res.json({message: "Group couldn't be found"})}
+
         let user = await User.findOne({where:{id:req.params.memberId}})
         if(!user){res.statusCode=404
         return res.json({message: "User couldn't be found"})}
+
         let membership = await Membership.findOne({where:{userId:req.params.memberId,
-            groupId: group.id}})
+            groupId: req.params.groupId}})
         if(!membership){res.statusCode=404
         return res.json({message: "Membership does not exist for this User"})}
 
