@@ -40,7 +40,7 @@ router.post(
       
       if (!user) {
         res.statusCode=400
-        res.json({
+        return res.json({
           message: "Bad Request",
           errors: {credential: "Email or username is required",
           password: "Password is required"}
@@ -56,7 +56,7 @@ router.post(
 
       if (!bcrypt.compareSync(password, user.hashedPassword.toString())) {
         res.statusCode=401
-        res.json({message: "Invalid credentials"})
+        return res.json({message: "Invalid credentials"})
         // const err = new Error('Login failed');
         // err.status = 401;
         // err.title = 'Login failed';

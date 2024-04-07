@@ -34,7 +34,7 @@ router.get("/", async(req, res, next)=>{
     })})
 
     let payload = {Groups: groups}
-    res.json(payload)
+    return res.json(payload)
 })
 
 //Get all Groups by Current User
@@ -65,7 +65,7 @@ router.get("/current", requireAuth, async(req, res, next)=>{
     let payload = {Groups:groups}
 
     res.statusCode=200
-    res.json(payload)
+    return res.json(payload)
 })
 
 //Get details of a Group from an id
@@ -79,7 +79,7 @@ router.get("/:groupId", async (req, res, next)=>{
     if(group.length===0){
         res.statusCode = 404
         let body = {message: "Group couldn't be found",}
-        res.json(body)
+        return res.json(body)
     }
 
     let groups = []
@@ -103,7 +103,7 @@ router.get("/:groupId", async (req, res, next)=>{
     })})
 
     res.statusCode=200
-    res.json(groups[0])
+    return res.json(groups[0])
 })
 
 //Create a Group
@@ -121,11 +121,11 @@ router.post("/", requireAuth, async (req, res, next)=>{
     console.log(newGroup)
     
     res.statusCode = 201
-    res.json(newGroup)
+    return res.json(newGroup)
 }
     catch(error){
         res.statusCode=400
-        res.json({
+        return res.json({
             "message": "Bad Request",
             "errors": {
               "name": "Name must be 60 characters or less",
@@ -146,13 +146,13 @@ router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
     console.log("Group", group)
     if(!group){
         res.statusCode=404
-        res.json({message: "Group couldn't be found"})
+        return res.json({message: "Group couldn't be found"})
     }
-    console.log("userId:", req.user.dataValues.id, "organizerId:", group.organizerId)
+    // console.log("userId:", req.user.dataValues.id, "organizerId:", group.organizerId)
     //authorization
     if(group.organizerId!==req.user.dataValues.id){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
@@ -170,7 +170,7 @@ router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
         preview: image.preview
     }
     res.statusCode=200
-    res.json(payload)
+    return res.json(payload)
 })
 
 //Edit a Group
@@ -178,13 +178,13 @@ router.put("/:groupId", requireAuth, async(req,res,next)=>{
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){
         res.statusCode=404
-        res.json({message: "Group couldn't be found"})
+        return res.json({message: "Group couldn't be found"})
     }
 
     //authorization
     if(group.organizerId!==req.user.dataValues.id){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
@@ -201,10 +201,10 @@ router.put("/:groupId", requireAuth, async(req,res,next)=>{
         await group.save()
         
         res.statusCode=200
-        res.json(group)
+        return res.json(group)
     } catch(error){
         res.statusCode=400
-        res.json({
+        return res.json({
             "message": "Bad Request",
             "errors": {
               "name": "Name must be 60 characters or less",
@@ -237,7 +237,7 @@ router.delete("/:groupId", requireAuth, async(req,res,next)=>{
     }
     await group.destroy()
     res.statusCode=200
-    res.json({
+    return res.json({
         "message": "Successfully deleted"
       })
 })
@@ -246,11 +246,11 @@ router.delete("/:groupId", requireAuth, async(req,res,next)=>{
 router.get("/:groupId/venues", requireAuth, async(req, res, next)=>{
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
-    res.json({message: "Group couldn't be found"})}
+    return res.json({message: "Group couldn't be found"})}
     //authorization
     if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
@@ -258,7 +258,7 @@ router.get("/:groupId/venues", requireAuth, async(req, res, next)=>{
     let venues = await Venue.findAll({where:{id:group.id}})
     let payload = {Venues: venues}
     res.statusCode = 200
-    res.json(payload)
+    return res.json(payload)
 
 })
 
@@ -266,11 +266,11 @@ router.get("/:groupId/venues", requireAuth, async(req, res, next)=>{
 router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
-    res.json({message: "Group couldn't be found"})}
+    return res.json({message: "Group couldn't be found"})}
     //authorization
     if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
@@ -297,10 +297,10 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         }
         
         res.statusCode=200
-        res.json(payload)
+        return res.json(payload)
     }catch(err){
         res.statusCode=400
-        res.json({
+        return res.json({
             "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
             "errors": {
               "address": "Street address is required",
@@ -318,7 +318,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         let tester = await Group.findOne({where:{id:req.params.groupId}})
         if(!tester){
             res.statusCode=404
-            res.json({message: "Group couldn't be found"})
+            return res.json({message: "Group couldn't be found"})
         }
 
         let events = await Event.findAll({where:{groupId:req.params.groupId},
@@ -370,18 +370,18 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     let payload = {Events: stuff}
 
     res.statusCode = 200
-    res.json(payload)
+    return res.json(payload)
     })
 
     //Create an Event for a Group specified by its id
     router.post("/:groupId/events", requireAuth, async(req,res)=>{
         let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
-    res.json({message: "Group couldn't be found"})}
+    return res.json({message: "Group couldn't be found"})}
     //authorization
     if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
@@ -389,7 +389,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     let ven = await Venue.findOne({where:{id:venueId}})
     if(!ven){
         res.statusCode=404
-        res.json({message: "Venue couldn't be found"})
+        return res.json({message: "Venue couldn't be found"})
     }
 
     try {
@@ -419,10 +419,10 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         }
         
         res.statusCode = 200
-        res.json(payload)
+        return res.json(payload)
     } catch (err) {
         res.statusCode =400
-        res.json({
+        return res.json({
             "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
             "errors": {
               "name": "Name must be at least 5 characters",
@@ -444,7 +444,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         include: [Membership]})
         if(!group){
             res.statusCode=404
-            res.json({message: "Group couldn't be found"})
+            return res.json({message: "Group couldn't be found"})
         }
         let members = await Membership.findAll({where:{groupId:req.params.groupId},
         include: [User]})
@@ -467,7 +467,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
                 })
             })
             res.statusCode=200
-            res.json(eliteReturn)
+            return res.json(eliteReturn)
         } else {
             let normalReturn = {Members: []}
             members.forEach((dude)=>{
@@ -480,7 +480,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
                 })}
             })
             res.statusCode=200
-            res.json(normalReturn)
+            return res.json(normalReturn)
         }
 
     })
@@ -489,7 +489,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     router.post("/:groupId/membership", requireAuth, async(req,res)=>{
         let group = await Group.findOne({where:{id:req.params.groupId}})
         if(!group){res.statusCode=404
-        res.json({message: "Group couldn't be found"})}
+        return res.json({message: "Group couldn't be found"})}
         let user = await User.findOne({where:{id:req.user.dataValues.id},
         include: [Membership]})
 
@@ -503,9 +503,9 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             {inGroup = true}
         })
         if(inGroup === true){res.statusCode = 400
-        res.json({message: "User is already a member of the group"})}
+        return res.json({message: "User is already a member of the group"})}
         if(inProcess===true){res.statusCode=400
-        res.json({message: "Membership has already been requested"})}
+        return res.json({message: "Membership has already been requested"})}
 
 
         let mem = await Membership.create({
@@ -518,7 +518,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             status:mem.status
         }
         res.statusCode = 200
-        res.json(payload)
+        return res.json(payload)
     })
 
     //Change the status of a membership for a group specified by id
@@ -526,7 +526,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         let group = await Group.findOne({where:{id:req.params.groupId},
         include:[Membership]})
         if(!group){res.statusCode=404
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })}
         //   console.log("Group:", group)
@@ -552,12 +552,12 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     if((status==="co-host"&&member.status==="member")&&group.organizerId===req.user.dataValues.id){hostAuth=true}
     if(memAuth===false&&hostAuth===false){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
         if(status==="pending"){res.statusCode = 400
-        res.json({
+        return res.json({
             "message": "Bad Request", // (or "Validation error" if generated by Sequelize),
             "errors": {
               "status" : "Cannot change a membership status to pending"
@@ -565,11 +565,11 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
           })}
           let user = await User.findOne({where:{id:memberId}})
           if(!user){res.statusCode=404
-        res.json({
+        return res.json({
             "message": "User couldn't be found"
           })}
         if(!membership){res.statusCode=404
-        res.json({
+        return res.json({
             "message": "Membership between the user and the group does not exist"
           })}
 
@@ -582,7 +582,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             status: membership.status
         }
         res.statusCode = 200
-        res.json(response)
+        return res.json(response)
 
     })
 
@@ -590,31 +590,31 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     router.delete("/:groupId/membership/:memberId", requireAuth, async(req,res)=>{
         let group = await Group.findOne({where:{id:req.params.groupId}})
         if(!group){res.statusCode=404
-        res.json({message: "Group couldn't be found"})}
+        return res.json({message: "Group couldn't be found"})}
         let user = await User.findOne({where:{id:req.params.memberId}})
         if(!user){res.statusCode=404
-        res.json({message: "User couldn't be found"})}
+        return res.json({message: "User couldn't be found"})}
         let membership = await Membership.findOne({where:{userId:req.params.memberId,
             groupId: group.id}})
         if(!membership){res.statusCode=404
-        res.json({message: "Membership does not exist for this User"})}
+        return res.json({message: "Membership does not exist for this User"})}
 
         
 
         if(req.user.dataValues.id!==group.organizerId||req.user.dataValues.id!==membership.userId){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
-    console.log("group:", group, "User:", user,
-    "membership:", membership)
+    // console.log("group:", group, "User:", user,
+    // "membership:", membership)
 
     
 
     await membership.destroy()
     res.statusCode=200
-    res.json({
+    return res.json({
         "message": "Successfully deleted membership from group"
       })
 
