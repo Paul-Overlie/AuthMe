@@ -223,7 +223,7 @@ router.delete("/:groupId", requireAuth, async(req,res,next)=>{
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){
         res.statusCode=404
-        res.json({
+        return res.json({
             "message": "Group couldn't be found"
           })
     }
@@ -231,7 +231,7 @@ router.delete("/:groupId", requireAuth, async(req,res,next)=>{
     //authorization
     if(group.organizerId!==req.user.dataValues.id){
         res.statusCode=403
-        res.json({
+        return res.json({
             "message": "Forbidden"
           })
     }
