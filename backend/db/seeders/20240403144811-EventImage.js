@@ -28,10 +28,16 @@ module.exports = {
       preview: true},
       {eventId: 3,
       url: "bbbbbbbbbb",
-      preview: false},
+      preview: true},
       {eventId: 2,
       url: "cccccccccc",
-      preview: true}
+      preview: true},
+      {eventId: 4,
+        url: "dddddddddd",
+        preview: true},
+        {eventId: 5,
+          url: "eeeeeeeeee",
+          preview: true}
      ])
   },
 
@@ -45,7 +51,7 @@ module.exports = {
     options.tableName = "EventImages"
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      url: {[Op.in]: ["aaaaaaaaaa","bbbbbbbbbb","cccccccccc"]}
+      url: {[Op.in]: ["aaaaaaaaaa","bbbbbbbbbb","cccccccccc", "dddddddddd", "eeeeeeeeee"]}
     }, {})
   }
 };

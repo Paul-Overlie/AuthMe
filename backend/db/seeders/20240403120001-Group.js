@@ -44,7 +44,23 @@ module.exports = {
     type: "In person",
     private: false,
     city: "Atlanta",
-    state: "Georgia"}
+    state: "Georgia"},
+    
+    {organizerId: 1,
+      name: "XLarge",
+      about: "Big ol guyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      type: "In person",
+      private: true,
+      city: "WackaWacka",
+      state: "SesameState"},
+
+      {organizerId: 2,
+        name: "XSmall",
+        about: "Just a little guyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        type: "In person",
+        private: false,
+        city: "Gotham",
+        state: "DC"}
    ])
   },
 
@@ -58,7 +74,7 @@ module.exports = {
     options.tableName = "Groups"
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      name: {[Op.in]: ["Small", "Medium", "Large"]}
+      name: {[Op.in]: ["Small", "Medium", "Large", "XLarge", "XSmall"]}
     }, {})
   }
 };

@@ -518,7 +518,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             status:mem.status
         }
         res.statusCode = 200
-        res.json(mem)
+        res.json(payload)
     })
 
     //Change the status of a membership for a group specified by id
@@ -536,12 +536,16 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         let membership = await Membership.findOne({where:{id:memberId,
         groupId: group.id}})
 
-        let member = await Membership.findOne({where:{id:memberId}})
+        let member = await Membership.findOne({where:{userId:memberId}})
         console.log("Status:",status, "membership.status:", membership.status, "group.organizerId",group.organizerId, "req.user.dataValues.id", req.user.dataValues.id)
         //authorization
-    if(((status==="member"&&membership.status==="pending")&&
-    (group.organizerId!==req.user.dataValues.id||membership.status!=="co-host"))
-    ||((status==="co-host"&&member.status==="member")&&group.organizerId!==req.user.dataValues.id)){
+        let memAuth = false
+        let hostAuth = false
+    if((status==="member"&&membership.status==="pending")&&group.organizerId===req.user.dataValues.id){memAuth=true}
+    if((status==="member"&&membership.status==="pending")&&membership.status==="co-host"){memAuth=true}
+
+    if((status==="co-host"&&member.status==="member")&&group.organizerId===req.user.dataValues.id){hostAuth=true}
+    if(memAuth===false&&hostAuth===false){
         res.statusCode=403
         res.json({
             "message": "Forbidden"

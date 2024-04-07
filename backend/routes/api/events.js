@@ -306,18 +306,20 @@ router.post("/:eventId/attendance", requireAuth, async(req,res)=>{
     let group = await Group.findOne({where:{id:event.groupId},
     include: [Membership]})
 
+    let attendance = await Attendance.findOne({where:{eventId:event.id}})
+
     //authorize
     let auth=false
     
     group.Memberships.forEach((member)=>{
-        console.log("user:", req.user.dataValues.id,
-        "memberId:", member.userId,
-        "status:",member.status)
+        // console.log("user:", req.user.dataValues.id,
+        // "memberId:", member.userId,
+        // "status:",member.status)
         if(req.user.dataValues.id===member.userId){auth=true}
-        if(req.user.dataValues.id===member.userId&&member.status==="pending")
+        if(req.user.dataValues.id===attendance.userId&&attendance.status==="pending")
         {res.statusCode=400
         res.json({message:"Attendance has already been requested"})}
-        if(req.user.dataValues.id===member.userId&&member.status==="attending")
+        if(req.user.dataValues.id===attendance.userId&&attendance.status==="attending")
         {res.statusCode=400
         res.json({message: "User is already an attendee of the event"})}
     })

@@ -41,7 +41,21 @@ module.exports = {
     city: "Houston County",
     state: "Georgia",
     lat: 12.3,
-    lng: 45.6}
+    lng: 45.6},
+
+    {groupId: 2,
+      address: "345 Yeetle",
+      city: "Whoopdy",
+      state: "Larp",
+      lat: 43.22,
+      lng: 11.11},
+
+      {groupId: 3,
+        address: "343 Asdf",
+        city: "Pie",
+        state: "PieFlavor",
+        lat: 11.22,
+        lng: 33.44}
    ])
   },
 
@@ -55,7 +69,7 @@ module.exports = {
     options.tableName = "Venues"
     const Op = Sequelize.Op
     return queryInterface.bulkDelete(options, {
-      address: {[Op.in]: ["123 Happy Hollow", "321 Dry Eagle", "147 Lovorn"]}
+      address: {[Op.in]: ["123 Happy Hollow", "321 Dry Eagle", "147 Lovorn", "345 Yeetle", "343 Asdf"]}
     })
   }
 };

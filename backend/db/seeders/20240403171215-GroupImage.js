@@ -28,11 +28,19 @@ module.exports = {
 
     {groupId: 2,
     url: "0987654321",
-    preview: false},
+    preview: true},
 
     {groupId: 1,
     url: "asdf",
-    preview: true}
+    preview: true},
+
+    {groupId: 4,
+      url: "fdsa",
+      preview: true},
+
+      {groupId: 5,
+        url: "jk",
+        preview: true}
    ])
   },
 
@@ -46,7 +54,7 @@ module.exports = {
     options.tableName = "GroupImages"
     const Op=Sequelize.Op
     await queryInterface.bulkDelete(options, {
-      url: {[Op.in]: ["1234567890", "0987654321", "asdf"]}
+      url: {[Op.in]: ["1234567890", "0987654321", "asdf", "fdsa", "jk"]}
     })
   }
 };
