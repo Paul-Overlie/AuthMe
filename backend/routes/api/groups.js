@@ -390,8 +390,15 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
     return res.json({message: "Group couldn't be found"})}
+
+    let member = await Membership.findOne({where:{userId:req.user.dataValues.id,
+    groupId:group.id}})
     //authorization
-    if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
+    let auth = false
+    if(group.organizerId===req.user.dataValues.id){auth=true}
+    if(member)
+    {if(member.status==="co-host"){auth=true}}
+        if(auth===false){
         res.statusCode=403
         return res.json({
             "message": "Forbidden"
