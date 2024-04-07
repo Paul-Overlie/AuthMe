@@ -432,10 +432,12 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
     if(!user){res.statusCode=404
     return res.json({message: "User couldn't be found"})}
 
+    console.log("currUser:",req.user.dataValues.id)
+
     //authorize
     let auth = false
     if(event.Group.organizerId===req.user.dataValues.id){auth=true}
-    if(req.params.userId===req.user.dataValues.id){auth=true}
+    if(+req.params.userId===req.user.dataValues.id){auth=true}
     if(auth===false){
         res.statusCode=403
         return res.json({
