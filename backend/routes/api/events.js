@@ -122,7 +122,8 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
         let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id, eventId:event.id}})
         let membership = await Membership.findOne({where:{groupId:event.groupId,
         userId:req.user.dataValues.id}})
-            // console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id)
+            console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id,
+            "attendStatus:",attendance.status)
             if(membership)
             {if(membership.status==="co-host"){auth=true}}
         
@@ -411,7 +412,8 @@ router.put("/:eventId/attendance", requireAuth, async(req,res)=>{
         }
       })}
 
-    let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id}})
+    let attendance = await Attendance.findOne({where:{userId:userId,
+    eventId:req.params.eventId}})
     if(!attendance){res.statusCode=404
     return res.json({
         "message": "Attendance between the user and the event does not exist"
@@ -440,13 +442,7 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
     if(!user){res.statusCode=404
     return res.json({message: "User couldn't be found"})}
 
-    let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id,
-    eventId:req.params.eventId}})
-    if(!attendance){req.statusCode=404
-    return res.json({message: "Attendance does not exist for this User"})}
-    await attendance.destroy()
     
-
     //authorize
     let auth = false
     if(event.Group.organizerId===req.user.dataValues.id){auth=true}
@@ -457,6 +453,12 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
             "message": "Forbidden"
         })
     }    
+    
+    let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id,
+    eventId:req.params.eventId}})
+    if(!attendance){req.statusCode=404
+    return res.json({message: "Attendance does not exist for this User"})}
+    await attendance.destroy()
 
     res.statusCode=200
     return res.json({
