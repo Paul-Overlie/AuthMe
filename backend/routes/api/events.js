@@ -260,13 +260,17 @@ router.delete("/:eventId", requireAuth, async(req,res)=>{
 
 //Get all Attendees of an Event specified by its id
 router.get("/:eventId/attendees", async(req,res)=>{
+    console.log(1)
     let event = await Event.findOne({where:{id:req.params.eventId}})
     if(!event){res.statusCode=404
     return res.json({message:"Event couldn't be found"})}
+    console.log(2)
     let group = await Group.findOne({where:{id:event.groupId},
     include:[Membership]})
+    console.log(3)
     let attendance = await Attendance.findAll({where:{eventId:req.params.eventId},
     include: [User]})
+    console.log(4)
     // console.log("userId:",req.user.dataValues.id,"organizerId:",group.organizerId)
 
     //is organizer or a co-host
@@ -276,6 +280,7 @@ router.get("/:eventId/attendees", async(req,res)=>{
             if(member.userId===req.user.dataValues.id&&member.status==="co-host")
             {elite=true}
         })
+        console.log(5)
         if(elite===true){
             let attend = {Attendees: []}
             attendance.forEach((at)=>{
@@ -285,11 +290,14 @@ router.get("/:eventId/attendees", async(req,res)=>{
                     lastName:at.User.lastName,
                     Attendance: {status:at.status}
                 })
+                console.log(6)
             })
+            console.log(7)
             res.statusCode=200
             return res.json(attend)
 
         } else {
+            console.log(8)
             let attends = {Attendees: []}
             attendance.forEach((att)=>{
                 if(att.status!=="pending"){
@@ -299,11 +307,12 @@ router.get("/:eventId/attendees", async(req,res)=>{
                         lastName:att.User.lastName,
                         Attendance: {status:att.status}
                     })
-                    res.statusCode=200
-                    return res.json(attends)
+                    console.log(9)
                 }
-                
+                console.log(10)
             })
+            res.statusCode=200
+            return res.json(attends)
         }
 
 })
