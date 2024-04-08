@@ -289,7 +289,7 @@ router.get("/:eventId/attendees", async(req,res)=>{
             res.statusCode=200
             return res.json(attend)
 
-        } else if(elite===false){
+        } else {
             let attends = {Attendees: []}
             attendance.forEach((att)=>{
                 if(att.status!=="pending"){
