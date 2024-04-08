@@ -122,8 +122,8 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
         let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id, eventId:event.id}})
         let membership = await Membership.findOne({where:{groupId:event.groupId,
         userId:req.user.dataValues.id}})
-            console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id,
-            "attendStatus:",attendance.status)
+            // console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id,
+            // "attendStatus:",attendance.status)
             if(membership)
             {if(membership.status==="co-host"){auth=true}}
         
