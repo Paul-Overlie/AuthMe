@@ -19,7 +19,11 @@ router.get("/", async(req,res)=>{
         console.log("Page:",Page)
         if(!Page){Page=1}
         if(Page>10){Page=10}
-        if(Page<1){Page=1}
+        if(Page<1){
+            res.statusCode=400
+            return res.json({message: "Bad Request",
+        errors: {page:"Page must be greater than or equal to 1"}})
+        Page=1}
         Pages = Page
     }
     if(Number.isInteger(+size)){
@@ -27,7 +31,11 @@ router.get("/", async(req,res)=>{
         console.log("Size:",Size)
         if(!Size){Size=20}
         if(Size>20){Size=20}
-        if(Size<1){Size=1}
+        if(Size<1){
+            res.statusCode=400
+            return res.json({message: "Bad Request",
+        errors: {size:"Size must be greater than or equal to 1"}})
+                Size=1}
         limit = Size
     }
     console.log("end limit:",limit, "end page:", Pages)
