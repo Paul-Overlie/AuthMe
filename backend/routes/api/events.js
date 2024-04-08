@@ -411,7 +411,7 @@ router.put("/:eventId/attendance", requireAuth, async(req,res)=>{
         }
       })}
 
-    let attendance = await Attendance.findOne({where:{userId:userId}})
+    let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id}})
     if(!attendance){res.statusCode=404
     return res.json({
         "message": "Attendance between the user and the event does not exist"
