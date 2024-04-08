@@ -579,7 +579,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
                 })
             }
 
-            let member = await Membership.findOne({where:{userId:req.user.dataValues.id,
+            let member = await Membership.findOne({where:{userId:memberId,
                 groupId: req.params.groupId}})
                 if(!member){
                     res.statusCode=404
