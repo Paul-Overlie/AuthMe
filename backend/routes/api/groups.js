@@ -583,6 +583,11 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
                     "message": "Forbidden"
                 })
             }
+            let user = await User.findOne({where:{id:memberId}})
+            if(!user){res.statusCode=404
+          return res.json({
+              "message": "User couldn't be found"
+            })}
 
             let member = await Membership.findOne({where:{userId:memberId,
                 groupId: req.params.groupId}})
@@ -597,11 +602,6 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
                     "errors": {
               "status" : "Cannot change a membership status to pending"
             }
-          })}
-          let user = await User.findOne({where:{id:memberId}})
-          if(!user){res.statusCode=404
-        return res.json({
-            "message": "User couldn't be found"
           })}
 
         // console.log("status:", status, "member:", membership)
