@@ -248,13 +248,18 @@ router.delete("/:groupId", requireAuth, async(req,res,next)=>{
       })
 })
 
-//create a new venue for a group by id
+//Get All Venues for a Group specified by its id
 router.get("/:groupId/venues", requireAuth, async(req, res, next)=>{
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
     return res.json({message: "Group couldn't be found"})}
+    let membership = await Membership.findOne({where:{groupId:group.id,
+    userId:req.user.dataValues.id}})
     //authorization
-    if(group.organizerId!==req.user.dataValues.id&&req.user.dataValues.status!=="co-host"){
+    let auth = false
+    if(group.organizerId===req.user.dataValues.id){auth=true}
+    if(membership){if(membership.status==="co-host"){auth=true}}
+    if(auth===false){
         res.statusCode=403
         return res.json({
             "message": "Forbidden"
@@ -623,7 +628,7 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         if(!membership){res.statusCode=404
         return res.json({message: "Membership does not exist for this User"})}
 
-        console.log("currId:",req.user.dataValues.id,"groupOrg:",group.organizerId,"memberId:",membership.userId)
+        // console.log("currId:",req.user.dataValues.id,"groupOrg:",group.organizerId,"memberId:",membership.userId)
         //authorize
         let auth = false
         if(req.user.dataValues.id===group.organizerId){auth=true}

@@ -120,13 +120,11 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
         //authorization
         let auth = false
         let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id, eventId:event.id}})
-        let membership
-        
-            membership = await Membership.findOne({where:{groupId:event.groupId}})
+        let membership = await Membership.findOne({where:{groupId:event.groupId,
+        userId:req.user.dataValues.id}})
             // console.log("status:",membership.status,"Id:",membership.userId,"realId:",req.user.dataValues.id)
             if(membership)
-            {if(membership.status==="co-host"&&membership.userId===req.user.dataValues.id)
-            {auth=true}}
+            {if(membership.status==="co-host"){auth=true}}
         
     if(attendance&&attendance.status==="attending"){auth=true}
     if(event.Group)
