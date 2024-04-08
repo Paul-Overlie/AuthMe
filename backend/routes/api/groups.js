@@ -626,8 +626,8 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
         console.log("currId:",req.user.dataValues.id,"groupOrg:",group.organizerId,"memberId:",membership.userId)
         //authorize
         let auth = false
-        if(req.user.dataValues.id!==group.organizerId){auth=true}
-        if(req.user.dataValues.id!==membership.userId){auth=true}
+        if(req.user.dataValues.id===group.organizerId){auth=true}
+        if(req.user.dataValues.id===membership.userId){auth=true}
         if(auth===false){
         res.statusCode=403
         return res.json({
