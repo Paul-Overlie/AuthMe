@@ -430,6 +430,7 @@ router.put("/:eventId/attendance", requireAuth, async(req,res)=>{
     return res.json(payload)
 })
 
+//Delete attendance to an event specified by id
 router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
     let event = await Event.findOne({where:{id:req.params.eventId},
     include: [Group]})
@@ -439,7 +440,7 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
     if(!user){res.statusCode=404
     return res.json({message: "User couldn't be found"})}
 
-    let attendance = await Attendance.findOne({where:{userId:req.params.userId,
+    let attendance = await Attendance.findOne({where:{userId:req.user.dataValues.id,
     eventId:req.params.eventId}})
     if(!attendance){req.statusCode=404
     return res.json({message: "Attendance does not exist for this User"})}

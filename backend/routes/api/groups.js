@@ -428,6 +428,11 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
             endDate,
             groupId:+req.params.groupId
         })
+        await Attendance.create({
+            eventId:event.id,
+            userId:req.user.dataValues.id,
+            status:"attending"
+        })
 
         let payload = {
             id:event.id,
