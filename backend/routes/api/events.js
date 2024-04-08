@@ -432,7 +432,12 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
     if(!user){res.statusCode=404
     return res.json({message: "User couldn't be found"})}
 
-    console.log("currUser:",req.user.dataValues.id)
+    let attendance = await Attendance.findOne({where:{userId:req.params.userId,
+    eventId:req.params.eventId}})
+    if(!attendance){req.statusCode=404
+    return res.json({message: "Attendance does not exist for this User"})}
+    await attendance.destroy()
+    
 
     //authorize
     let auth = false
@@ -444,11 +449,6 @@ router.delete("/:eventId/attendance/:userId", requireAuth, async(req,res)=>{
             "message": "Forbidden"
         })
     }    
-    let attendance = await Attendance.findOne({where:{userId:req.params.userId,
-    eventId:req.params.eventId}})
-    if(!attendance){req.statusCode=404
-    return res.json({message: "Attendance does not exist for this User"})}
-    await attendance.destroy()
 
     res.statusCode=200
     return res.json({
