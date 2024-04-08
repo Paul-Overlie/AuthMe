@@ -9,8 +9,35 @@ const router = express.Router()
 
 //Get all Events
 router.get("/", async(req,res)=>{
+    let {page, size}=req.query
+    // console.log("page:",page,"size:",size)
+    let limit = 20
+    let offset = 0
+    let Pages =1
+    if(Number.isInteger(+page)){
+        let Page = +page
+        console.log("Page:",Page)
+        if(!Page){Page=1}
+        if(Page>10){Page=10}
+        if(Page<1){Page=1}
+        Pages = Page
+    }
+    if(Number.isInteger(+size)){
+        let Size = +size
+        console.log("Size:",Size)
+        if(!Size){Size=20}
+        if(Size>20){Size=20}
+        if(Size<1){Size=1}
+        limit = Size
+    }
+    console.log("end limit:",limit, "end page:", Pages)
+    offset=limit*(Pages-1)
+
+    
     let origin = await Event.findAll({
-        include: [Attendance, EventImage, Venue, Group]
+        include: [Attendance, EventImage, Venue, Group],
+        limit:limit,
+        offset:offset
     })
     // console.log("origin", origin, "originId", origin.id)
     let events =[]
