@@ -9,6 +9,9 @@ const router = express.Router()
 
 //Get all Events
 router.get("/", async(req,res)=>{
+    let errors = false
+    let errmessage = {message: "Bad Request",
+errors:{}}
     let {page, size}=req.query
     // console.log("page:",page,"size:",size)
     let limit = 20
@@ -20,9 +23,8 @@ router.get("/", async(req,res)=>{
         if(!Page){Page=1}
         if(Page>10){Page=10}
         if(Page<1){
-            res.statusCode=400
-            return res.json({message: "Bad Request",
-        errors: {page:"Page must be greater than or equal to 1"}})
+            errors = true
+        errmessage.errors.page="Page must be greater than or equal to 1"
         Page=1}
         Pages = Page
     }
@@ -32,14 +34,17 @@ router.get("/", async(req,res)=>{
         if(!Size){Size=20}
         if(Size>20){Size=20}
         if(Size<1){
-            res.statusCode=400
-            return res.json({message: "Bad Request",
-        errors: {size:"Size must be greater than or equal to 1"}})
+            errors = true
+        errmessage.errors.size="Size must be greater than or equal to 1"
                 Size=1}
         limit = Size
     }
     console.log("end limit:",limit, "end page:", Pages)
     offset=limit*(Pages-1)
+    if(errors===true){
+        res.statusCode = 400
+        return res.json(errmessage)
+    }
 
     
     let origin = await Event.findAll({
