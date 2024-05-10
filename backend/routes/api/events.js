@@ -2,14 +2,34 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const {Group, GroupImage, Membership, Venue, User, Event, EventImage, Attendance}=require("../../db/models")
 const Sequelize = require("sequelize")
+const {check, validationResult}=require("express-validator")
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 
 const router = express.Router()
+let queryValidations=[
+    check('page')
+        .isInt({min:1})
+        .withMessage("Page must be greater than or equal to 1"),
+    check('size')
+        .isInt({min:1})
+        .withMessage("Size must be greater than or equal to 1")
+]
 
 //Get all Events
-router.get("/", async(req,res)=>{
-    let errors = false
+router.get("/", queryValidations, async(req,res)=>{
+    let result = validationResult(req)
+    let errors={}
+    console.log(result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        res.json({
+            "message": "Bad Request",
+            "Errors": errors
+        })
+    }
+    // console.log("body",req.body)
     let errmessage = {message: "Bad Request",
 errors:{}}
     let {page, size}=req.query
@@ -19,32 +39,20 @@ errors:{}}
     let Pages =1
     if(Number.isInteger(+page)){
         let Page = +page
-        console.log("Page:",Page)
+        // console.log("Page:",Page)
         if(!Page){Page=1}
         if(Page>10){Page=10}
-        if(Page<1){
-            errors = true
-        errmessage.errors.page="Page must be greater than or equal to 1"
-        Page=1}
         Pages = Page
     }
     if(Number.isInteger(+size)){
         let Size = +size
-        console.log("Size:",Size)
+        // console.log("Size:",Size)
         if(!Size){Size=20}
         if(Size>20){Size=20}
-        if(Size<1){
-            errors = true
-        errmessage.errors.size="Size must be greater than or equal to 1"
-                Size=1}
         limit = Size
     }
-    console.log("end limit:",limit, "end page:", Pages)
+    // console.log("end limit:",limit, "end page:", Pages)
     offset=limit*(Pages-1)
-    if(errors===true){
-        res.statusCode = 400
-        return res.json(errmessage)
-    }
 
     
     let origin = await Event.findAll({
