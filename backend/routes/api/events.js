@@ -20,11 +20,11 @@ let queryValidations=[
 router.get("/", queryValidations, async(req,res)=>{
     let result = validationResult(req)
     let errors={}
-    console.log(result.errors)
+    // console.log(result.errors)
     if(result.errors.length>0){
         result.errors.forEach(e=>{errors[e.path]=e.msg})
         res.statusCode=400
-        res.json({
+        return res.json({
             "message": "Bad Request",
             "Errors": errors
         })
@@ -203,7 +203,49 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
 })
 
 //Edit an Event specified by its id
-router.put("/:eventId", requireAuth, async(req,res)=>{
+let currentTime = Date.now()
+let editQueryValidations=[
+    check('name')
+        .isLength({min:5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .isIn(["Online", "In person"])
+        .withMessage("Type must be Online or In person"),
+    check('capacity')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check("price")
+        .isFloat({min:0})
+        .withMessage("Price is invalid"),
+    check("description")
+        .exists()
+        .notEmpty()
+        .withMessage("Description is required"),
+    check("startDate")
+        .isISO8601()
+        .custom(value=>{if(new Date(value).getTime()>currentTime){return true}else{return false}})
+        .withMessage("Start date must be in the future"),
+    check("endDate")
+        .isISO8601()
+        .withMessage("End date is less than start date")
+]
+router.put("/:eventId", requireAuth, editQueryValidations, async(req,res)=>{
+    let result = validationResult(req)
+    if(!result.errors.find(e=>e.path==="endDate")&&new Date(req.body.startDate).getTime()>new Date(req.body.endDate).getTime()){
+        result.errors.push({path:"endDate",
+            msg:"End date is less than start date"
+        })
+    }
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
     let event = await Event.findOne({where:{id:req.params.eventId}})
     if(!event){res.statusCode=404
     return res.json({message: "Event couldn't be found"})}
