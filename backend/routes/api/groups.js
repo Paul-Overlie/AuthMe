@@ -2,10 +2,38 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const {Group, GroupImage, Membership, Venue, User, Attendance, EventImage, Event}=require("../../db/models")
 const Sequelize = require("sequelize")
+const {check, validationResult}=require("express-validator")
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 
 const router = express.Router()
+
+let currentTime = Date.now()
+let editQueryValidations=[
+    check('name')
+        .isLength({min:5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .isIn(["Online", "In person"])
+        .withMessage("Type must be Online or In person"),
+    check('capacity')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check("price")
+        .isFloat({min:0})
+        .withMessage("Price is invalid"),
+    check("description")
+        .exists()
+        .notEmpty()
+        .withMessage("Description is required"),
+    check("startDate")
+        .isISO8601()
+        .custom(value=>{if(new Date(value).getTime()>currentTime){return true}else{return false}})
+        .withMessage("Start date must be in the future"),
+    check("endDate")
+        .isISO8601()
+        .withMessage("End date is less than start date")
+]
 
 //Get all Groups
 router.get("/", async(req, res, next)=>{
@@ -391,7 +419,23 @@ router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
     })
 
     //Create an Event for a Group specified by its id
-    router.post("/:groupId/events", requireAuth, async(req,res)=>{
+    router.post("/:groupId/events", requireAuth, editQueryValidations, async(req,res)=>{
+        let result = validationResult(req)
+    if(!result.errors.find(e=>e.path==="endDate")&&new Date(req.body.startDate).getTime()>new Date(req.body.endDate).getTime()){
+        result.errors.push({path:"endDate",
+            msg:"End date is less than start date"
+        })
+    }
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
         let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
     return res.json({message: "Group couldn't be found"})}

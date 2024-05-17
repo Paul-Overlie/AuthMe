@@ -16,6 +16,33 @@ let queryValidations=[
         .withMessage("Size must be greater than or equal to 1")
 ]
 
+let currentTime = Date.now()
+let editQueryValidations=[
+    check('name')
+        .isLength({min:5})
+        .withMessage("Name must be at least 5 characters"),
+    check('type')
+        .isIn(["Online", "In person"])
+        .withMessage("Type must be Online or In person"),
+    check('capacity')
+        .isInt()
+        .withMessage("Capacity must be an integer"),
+    check("price")
+        .isFloat({min:0})
+        .withMessage("Price is invalid"),
+    check("description")
+        .exists()
+        .notEmpty()
+        .withMessage("Description is required"),
+    check("startDate")
+        .isISO8601()
+        .custom(value=>{if(new Date(value).getTime()>currentTime){return true}else{return false}})
+        .withMessage("Start date must be in the future"),
+    check("endDate")
+        .isISO8601()
+        .withMessage("End date is less than start date")
+]
+
 //Get all Events
 router.get("/", queryValidations, async(req,res)=>{
     let result = validationResult(req)
@@ -203,32 +230,6 @@ router.post("/:eventId/images", requireAuth, async(req,res)=>{
 })
 
 //Edit an Event specified by its id
-let currentTime = Date.now()
-let editQueryValidations=[
-    check('name')
-        .isLength({min:5})
-        .withMessage("Name must be at least 5 characters"),
-    check('type')
-        .isIn(["Online", "In person"])
-        .withMessage("Type must be Online or In person"),
-    check('capacity')
-        .isInt()
-        .withMessage("Capacity must be an integer"),
-    check("price")
-        .isFloat({min:0})
-        .withMessage("Price is invalid"),
-    check("description")
-        .exists()
-        .notEmpty()
-        .withMessage("Description is required"),
-    check("startDate")
-        .isISO8601()
-        .custom(value=>{if(new Date(value).getTime()>currentTime){return true}else{return false}})
-        .withMessage("Start date must be in the future"),
-    check("endDate")
-        .isISO8601()
-        .withMessage("End date is less than start date")
-]
 router.put("/:eventId", requireAuth, editQueryValidations, async(req,res)=>{
     let result = validationResult(req)
     if(!result.errors.find(e=>e.path==="endDate")&&new Date(req.body.startDate).getTime()>new Date(req.body.endDate).getTime()){
