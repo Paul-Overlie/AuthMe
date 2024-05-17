@@ -35,6 +35,50 @@ let editQueryValidations=[
         .withMessage("End date is less than start date")
 ]
 
+let editVenueValidations=[
+    check("address")
+        .exists()
+        .notEmpty()
+        .withMessage("Street address is required"),
+    check("city")
+        .exists()
+        .notEmpty()
+        .withMessage("City is required"),
+    check("state")
+        .exists()
+        .notEmpty()
+        .withMessage("State is required"),
+    check("lat")
+        .isFloat({min:-90, max:90})
+        .withMessage("Latitude must be within -90 and 90"),
+        check("lng")
+        .isFloat({min:-180, max:180})
+        .withMessage("Longitude must be within -180 and 180"),
+]
+
+let editGroupValidations = [
+    check("name")
+        .isLength({max: 60})
+        .withMessage("Name must be 60 characters or less"),
+    check("about")
+        .isLength({min: 50})
+        .withMessage("About must be 50 characters or more"),
+    check("type")
+        .isIn(["Online", "In person"])
+        .withMessage("Type must be 'Online' or 'In person'"),
+    check("private")
+        .isBoolean()
+        .withMessage("Private must be a boolean"),
+    check("city")
+        .exists()
+        .notEmpty()
+        .withMessage("City is required"),
+    check("state")
+        .exists()
+        .notEmpty()
+        .withMessage("State is required")
+]
+
 //Get all Groups
 router.get("/", async(req, res, next)=>{
     let memberCount = await Membership.count()
@@ -135,7 +179,18 @@ router.get("/:groupId", async (req, res, next)=>{
 })
 
 //Create a Group
-router.post("/", requireAuth, async (req, res, next)=>{
+router.post("/", requireAuth, editGroupValidations, async (req, res, next)=>{
+    let result = validationResult(req)
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
     let {name, about, type, private, city, state}= req.body
     try {let newGroup = await Group.create({
         organizerId: req.user.dataValues.id,
@@ -208,7 +263,18 @@ router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
 })
 
 //Edit a Group
-router.put("/:groupId", requireAuth, async(req,res,next)=>{
+router.put("/:groupId", requireAuth, editGroupValidations, async(req,res,next)=>{
+    let result = validationResult(req)
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){
         res.statusCode=404
@@ -302,7 +368,18 @@ router.get("/:groupId/venues", requireAuth, async(req, res, next)=>{
 })
 
 //Create a new venue for a group specified by its id
-router.post("/:groupId/venues", requireAuth, async(req,res,next)=>{
+router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res,next)=>{
+    let result = validationResult(req)
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
     let group = await Group.unscoped().findOne({where: {id: req.params.groupId}})
     if(!group){res.statusCode = 404
     return res.json({message: "Group couldn't be found"})}

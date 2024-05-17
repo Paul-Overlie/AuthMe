@@ -1,7 +1,7 @@
 const express = require('express')
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
-const { check } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 
@@ -14,18 +14,29 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Please provide a valid email or username.'),
+    .withMessage('Email or username is required'),
   check('password')
     .exists({ checkFalsy: true })
-    .withMessage('Please provide a password.'),
-  handleValidationErrors
+    .withMessage('Password is required'),
+  // handleValidationErrors
 ];
 
 // Log in
 router.post(
     '/',
-    // validateLogin,
+    validateLogin,
     async (req, res, next) => {
+      let result = validationResult(req)
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
       const { credential, password } = req.body;
   
       const user = await User.unscoped().findOne({

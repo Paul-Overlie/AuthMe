@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User } = require('../../db/models');
-const { check } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
@@ -12,27 +12,44 @@ const validateSignup = [
   check('email')
     .exists({ checkFalsy: true })
     .isEmail()
-    .withMessage('Please provide a valid email.'),
+    .withMessage('Invalid email'),
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
-    .withMessage('Please provide a username with at least 4 characters.'),
-  check('username')
-    .not()
-    .isEmail()
-    .withMessage('Username cannot be an email.'),
-  check('password')
+    .withMessage('Username is required'),
+  // check('username')
+  //   .not()
+  //   .isEmail()
+  //   .withMessage('Username cannot be an email.'),
+  // check('password')
+  //   .exists({ checkFalsy: true })
+  //   .isLength({ min: 6 })
+  //   .withMessage('Password must be 6 characters or more.'),
+  // handleValidationErrors
+  check("firstName")
     .exists({ checkFalsy: true })
-    .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'),
-  handleValidationErrors
+    .withMessage("First Name is required"),
+  check("lastName")
+    .exists({ checkFalsy: true })
+    .withMessage("Last Name is required")
 ];
 
 // Sign up
 router.post(
     '/',
-    // validateSignup,
+    validateSignup,
     async (req, res) => {
+      let result = validationResult(req)
+    let errors={}
+    // console.log("result errors:",result.errors)
+    if(result.errors.length>0){
+        result.errors.forEach(e=>{errors[e.path]=e.msg})
+        res.statusCode=400
+        return res.json({
+            "message": "Bad Request",
+            "errors": errors
+        })
+    }
       const { email, password, username, firstName, lastName } = req.body;
       const hashedPassword = bcrypt.hashSync(password);
       
