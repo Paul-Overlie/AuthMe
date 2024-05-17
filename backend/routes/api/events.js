@@ -46,10 +46,12 @@ let editQueryValidations=[
 //Get all Events
 router.get("/", queryValidations, async(req,res)=>{
     let result = validationResult(req)
+    let errArr = []
+    result.errors.forEach(e=>{if(e.value!==undefined){errArr.push(e)}})
     let errors={}
-    // console.log(result.errors)
-    if(result.errors.length>0){
-        result.errors.forEach(e=>{errors[e.path]=e.msg})
+    console.log(result.errors)
+    if(errArr.length>0){
+        errArr.forEach(e=>{errors[e.path]=e.msg})
         res.statusCode=400
         return res.json({
             "message": "Bad Request",
