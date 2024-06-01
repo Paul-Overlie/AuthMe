@@ -207,7 +207,7 @@ router.post("/", requireAuth, editGroupValidations, async (req, res, next)=>{
         groupId: newGroup.id,
         status: "co-host"
     })
-    console.log(newGroup)
+    // console.log(newGroup)
     
     res.statusCode = 201
     return res.json(newGroup)
@@ -232,7 +232,7 @@ router.post("/", requireAuth, editGroupValidations, async (req, res, next)=>{
 router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
     let group = await Group.findOne({where: {id: req.params.groupId}})
     //no group from id
-    console.log("Group", group)
+    // console.log("Group", group)
     if(!group){
         res.statusCode=404
         return res.json({message: "Group couldn't be found"})
@@ -605,7 +605,7 @@ router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res
             if(req.user.dataValues.id===member.userId&&member.status==="co-host")
             {elite=true}
         })
-        console.log(elite, group.organizerId)
+        // console.log(elite, group.organizerId)
         if(elite===true){
             let eliteReturn = {Members: []}
             members.forEach((dude)=>{
@@ -682,7 +682,7 @@ router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res
         //   console.log("Group:", group)
 
         let {memberId, status}=req.body
-        console.log("userId:",req.user.dataValues.id,"groupId:",req.params.groupId)
+        // console.log("userId:",req.user.dataValues.id,"groupId:",req.params.groupId)
         
         // console.log("memberId:",memberId,"group.id:",group.id,"membership:",membership)
         

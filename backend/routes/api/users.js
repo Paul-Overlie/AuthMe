@@ -64,7 +64,7 @@ router.post(
         err.message="User already exists"
         err.errors={
         email:"User with that email already exists"}
-        console.log(err)
+        // console.log(err)
         return res.json(err)
       }
 

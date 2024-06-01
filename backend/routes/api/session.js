@@ -107,7 +107,7 @@ router.get(
       const { user } = req;
       if (user) {
         let use = await User.unscoped().findOne({where:{id:user.id}})
-        console.log("Use:", use)
+        // console.log("Use:", use)
         const safeUser = {
           id: use.id,
           firstName: use.firstName,

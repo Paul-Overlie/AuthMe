@@ -152,7 +152,7 @@ router.put("/venues/:venueId", requireAuth, editVenueValidations, async(req,res,
         let eventImage = await EventImage.findOne({where:{id:req.params.imageId},
             include: [Event]})
             
-            console.log("HITTING")
+            // console.log("HITTING")
             
             if(!eventImage){res.statusCode=404
                 return res.json({message: "Event Image couldn't be found"})}
@@ -161,7 +161,7 @@ router.put("/venues/:venueId", requireAuth, editVenueValidations, async(req,res,
                 let mem = await Membership.findOne({where:{userId:req.user.dataValues.id,
                 groupId:eventImage.Event.groupId}})
                     
-                    console.log("currId:",req.user.dataValues.id, "organizerId:",group.organizerId,"group",group)
+                    // console.log("currId:",req.user.dataValues.id, "organizerId:",group.organizerId,"group",group)
                     
                     
                     //authorize
