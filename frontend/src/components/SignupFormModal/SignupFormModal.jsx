@@ -15,6 +15,10 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const disabled = () => {
+    return email.length<1||username.length<1||firstName.length<1||lastName.length<1||password.length<6||confirmPassword.length<1
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -105,7 +109,7 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={disabled()}>Sign Up</button>
       </form>
     </>
   );
