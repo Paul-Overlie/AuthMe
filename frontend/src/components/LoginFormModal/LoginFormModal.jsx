@@ -11,6 +11,8 @@ function LoginFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  const disabled = () => {return credential.length<4||password.length<6}
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
@@ -23,6 +25,12 @@ function LoginFormModal() {
         }
       });
   };
+
+  const defaultClicked = (e) => {
+    e.preventDefault()
+    dispatch(sessionActions.defaultLogin())
+    closeModal()
+  }
 
   return (
     <>
@@ -47,8 +55,11 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && <p>{errors.credential}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={disabled()}>Log In</button>
       </form>
+      <button onClick={defaultClicked}>
+                Demo User Button
+              </button>
     </>
   );
 }

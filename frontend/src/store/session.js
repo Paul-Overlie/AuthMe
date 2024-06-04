@@ -54,6 +54,16 @@ export const logout = () => async (dispatch) => {
   return response;
 };
 
+export const defaultLogin = () => async (dispatch) => {
+  const response = await csrfFetch("/api/session", {
+    method: "POST",
+    body: JSON.stringify({ credential: 'demo@user.io', password: 'password' })
+  });
+  const data = await response.json();
+  dispatch(setUser(data.user));
+  return response;
+}
+
 const initialState = { user: null };
 
 function sessionReducer(state = initialState, action) {

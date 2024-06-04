@@ -5,3 +5,9 @@
 .hidden {
   display: none;
 }
+
+.NavContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 70%
+}
