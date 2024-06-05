@@ -18,9 +18,9 @@ useEffect (() => {
 }, [dispatch, groups])
 
 
-console.log("Current Group Event: ",currGroups)
+// console.log("Current Group Event: ",currGroups)
 
-console.log("WHY OH WHY: ",currGroups?currGroups[0].events: null)
+// console.log("WHY OH WHY: ",currGroups?currGroups[0].events: null)
 
     return <>
     <div>
@@ -30,7 +30,8 @@ console.log("WHY OH WHY: ",currGroups?currGroups[0].events: null)
     <div>
         <div>Groups in Meetup</div>
         {currGroups?.map(group=>
-        {{console.log("This group: ",(group))}
+        {
+            // {console.log("This group: ",(group))}
             return <div key={group.id}>
                 <img src={group.previewImage}/>
                 <div>{group.name}</div>

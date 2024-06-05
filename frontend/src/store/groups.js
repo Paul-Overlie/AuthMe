@@ -30,7 +30,8 @@ export const restoreGroups = () => async dispatch => {
         group.events = data.Events
     })
     dispatch(getEvents(newGroups));
-    console.log("TRUTH: ",newGroups[0].events)
+    console.log("groups: ", newGroups)
+    console.log("First Group's Events: ",newGroups[0].events)
     return newGroups;
   };
 

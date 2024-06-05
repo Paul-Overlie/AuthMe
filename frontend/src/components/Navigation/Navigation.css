@@ -1,5 +1,7 @@
 .profile-dropdown {
   position: absolute;
+  background-color: burlywood;
+  right: 30px;
 }
 
 .hidden {
@@ -9,5 +11,82 @@
 .NavContainer {
   display: flex;
   flex-direction: row;
-  flex: 70%
+  align-items: center;
+  width: auto;
+  height: 50px;
+  justify-content: space-between;
+}
+
+.NavHomeIcon {
+  height: 100%;
+  margin-left: 30px;
+}
+
+.NavHomeIconImg {
+  height:100%
+}
+
+.NavProfileButton {
+  height: 100%;
+}
+
+.userProfileButtonContainer {
+  height: 100%;
+  margin-right: 30px;
+  display: flex;
+  align-items: center;
+
+}
+
+.ProfileButtonContinaer {
+  height: 100%;
+  margin-left: 15px;
+}
+
+.ProfileButtonImg {
+  height: 100%;
+}
+
+.greyLine {
+  height: 5px;
+  width: 100%;
+  background-color: grey;
+}
+
+#modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px
+}
+
+.LoginTitle {
+  width: fit-content;
+}
+
+.LoginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.LoginForm>input {
+  margin: 10px;
+  border: solid black 3px;
+}
+
+.LoginForm>button {
+  border: 2px grey;
+  box-shadow: 3px 3px grey;
+  margin: 10px;
+}
+
+.LoginForm>p {
+  color: red;
+}
+
+.LoginButton {
+  border: 0;
+  border-bottom: 3px black solid;
+  background-color: white;
 }
