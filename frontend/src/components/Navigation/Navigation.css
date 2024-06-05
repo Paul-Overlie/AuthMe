@@ -15,6 +15,7 @@
   width: auto;
   height: 50px;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .NavHomeIcon {
@@ -89,4 +90,85 @@
   border: 0;
   border-bottom: 3px black solid;
   background-color: white;
+}
+
+.LandingFirst {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.LandingFirstLeft {
+  width: 45%;
+  margin-right: 30px;
+}
+
+.LandingFirstRight {
+  width: 45%;
+  height: 500px;
+}
+
+.LandingFirstLeft>div {
+  height: 45%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.LandingFirstLeftTitle {
+  font-size: 1cm;
+  font-weight: bold;
+}
+
+.LandingFirstLeftText {
+  font-size: 0.5cm;
+}
+
+.LandingSecond {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px;
+}
+
+.LandingSecondSubtitle {
+  font-size: 0.8cm;
+  font-weight: bold;
+}
+
+.LandingSecondCaption {
+  font-size: 0.5cm;
+}
+
+.LandingThird {
+  display: flex;
+  justify-content: space-around;
+  margin: 30px;
+}
+
+.LandingThird>div {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  align-items: center;
+}
+
+.LandingThirdIcon {
+  font-size: 2cm;
+}
+
+.LandingThirdLink {
+  font-size: .6cm;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.LandingFourth {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.LandingFourth>button {
+  font-size: 1cm;
+  margin-bottom: 30px;
 }
