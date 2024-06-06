@@ -9,6 +9,7 @@ import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
 import GroupList from './components/GroupList/GroupList';
 import { SpecificGroup } from './components/GroupList/SpecificGroup';
+import { SpecificEvent } from './components/EventList/SpecificEvent';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: '/groups/:groupId',
         element: <SpecificGroup />
+      },
+      {
+        path: '/events/:eventId',
+        element: <SpecificEvent />
       }
       // {
       //   path: 'login',
