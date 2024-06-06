@@ -14,10 +14,12 @@ const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
     .notEmpty()
-    .withMessage('Email or username is required'),
+    .withMessage('The provided credentials were invalid'),
+    // .withMessage('Email or username is required'),
   check('password')
     .exists({ checkFalsy: true })
-    .withMessage('Password is required'),
+    .withMessage('The provided credentials were invalid'),
+    // .withMessage('Password is required'),
   // handleValidationErrors
 ];
 

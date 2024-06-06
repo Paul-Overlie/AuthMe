@@ -486,7 +486,8 @@ router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res
         numAttending: event.Attendances.length,
         previewImage: prevImage[0]||null,
         Group: gru,
-        Venue: ven
+        Venue: ven,
+        description: event.description
     })})
     
     let payload = {Events: stuff}
