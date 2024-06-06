@@ -1,18 +1,23 @@
 import { csrfFetch } from './csrf.js';
 
 const RESTORE_EVENT = 'get/events/eventId'
+const RESTORE_EVENTS = 'get/events'
 
 const setEvent = (event) => ({
     type: RESTORE_EVENT,
     payload: event
   })
 
+const setEvents = (events) => ({
+    type: RESTORE_EVENTS,
+    payload: events
+})
+
 export const restoreEvent = (eventId) => async dispatch => {
     const response = await csrfFetch("/api/events/"+eventId)
     const data = await response.json()
     const response2 = await csrfFetch("/api/groups/"+data.groupId)
     const data2 = await response2.json()
-    console.log("DATA2: ",data2.GroupImages)
     data.organizer = {}
     data.organizer.firstName = data2.Organizer.firstName
     data.organizer.lastName = data2.Organizer.lastName
@@ -22,12 +27,22 @@ export const restoreEvent = (eventId) => async dispatch => {
     return data
   }
 
+export const restoreEventsList = () => async dispatch => {
+    const response = await csrfFetch("/api/events")
+    const data = await response.json()
+    console.log("DATA: ",data)
+    dispatch(setEvents(data.Events))
+    return data
+} 
+
 const initialState = {events: null}
 
 export function eventReducer(state = initialState, action) {
     switch (action.type) {
       case RESTORE_EVENT:
         return { ...state, currEvent: action.payload };
+      case RESTORE_EVENTS:
+        return { ...state, events: action.payload}
     //   case RESTORE_EVENTS:
     //     return { ...state, events: action.payload}
     //   case RESTORE_GROUP:

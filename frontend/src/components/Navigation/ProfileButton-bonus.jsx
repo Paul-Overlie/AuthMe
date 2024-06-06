@@ -59,6 +59,9 @@ function ProfileButton({ user }) {
             <li>
               <NavLink to={"/groups"}>View groups</NavLink>
             </li>
+            <li>
+              <NavLink to={"/events"}>View Events</NavLink>
+            </li>
           </>
         ) : (
           <>

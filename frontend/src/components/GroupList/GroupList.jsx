@@ -28,7 +28,7 @@ useEffect (() => {
 
     return <>
     <div>
-        <div>Events</div>
+        <NavLink to={"/events"}>Events</NavLink>
         <div>Groups</div>
     </div>
     <div>
