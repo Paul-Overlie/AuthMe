@@ -8,6 +8,7 @@ import LandingPage from './components/LandingPage/LandingPage';
 import * as sessionActions from './store/session';
 import { Modal } from './context/Modal';
 import GroupList from './components/GroupList/GroupList';
+import { SpecificGroup } from './components/GroupList/SpecificGroup';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: '/groups',
         element: <GroupList />
+      },
+      {
+        path: '/groups/:groupId',
+        element: <SpecificGroup />
       }
       // {
       //   path: 'login',

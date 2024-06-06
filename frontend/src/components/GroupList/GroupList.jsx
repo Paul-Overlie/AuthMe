@@ -1,26 +1,30 @@
-import { restoreGroups, addGroupEvents } from "../../store/groups"
+import { restoreGroups, restoreEvents } from "../../store/groups"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
+import { NavLink } from "react-router-dom"
 
 const GroupList = () => {
 const dispatch = useDispatch()
-let groups = useSelector(state => state.groups.groups)
 
-let currGroups = useSelector(state => state.groups.currGroupEvent)
+let groups = useSelector(state => state.groups.groups)
+let events = useSelector(state => state.groups.events)
+
+groups?.forEach(group => {
+    group.events = []
+})
+
+
+groups?.forEach(group => {
+    let currEvent = events?.filter(event => {return group.id===event.groupId})
+    currEvent ? group.events = currEvent : group.events = [] 
+})
 
 
 useEffect (() => {
     dispatch(restoreGroups())
+    dispatch(restoreEvents())
 }, [dispatch])
 
-useEffect (() => {
-    if(groups && Object.values(groups).length>0){dispatch(addGroupEvents(groups))}
-}, [dispatch, groups])
-
-
-// console.log("Current Group Event: ",currGroups)
-
-// console.log("WHY OH WHY: ",currGroups?currGroups[0].events: null)
 
     return <>
     <div>
@@ -29,18 +33,17 @@ useEffect (() => {
     </div>
     <div>
         <div>Groups in Meetup</div>
-        {currGroups?.map(group=>
+        {groups?.map(group=>
         {
-            // {console.log("This group: ",(group))}
-            return <div key={group.id}>
+            return <NavLink to={"/groups/"+group.id} key={group.id}>
                 <img src={group.previewImage}/>
                 <div>{group.name}</div>
                 <div>{group.city}, {group.state}</div>
                 <div>{group.about}</div>
-                {/* <div>{group.events.length} events</div> */}
+                <div>{group.events.length} event(s)</div>
                 <div>•</div>
                 <div>{group.private?"Private":"Public"}</div>
-            </div>})}
+            </NavLink>})}
     </div>
     </>
 }

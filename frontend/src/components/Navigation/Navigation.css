@@ -4,6 +4,12 @@
   right: 30px;
 }
 
+.userMenu-dropdown {
+  position:absolute;
+  background-color: burlywood;
+  right: 160px;
+}
+
 .hidden {
   display: none;
 }
@@ -39,7 +45,7 @@
 
 }
 
-.ProfileButtonContinaer {
+.ProfileButtonContainer {
   height: 100%;
   margin-left: 15px;
 }
