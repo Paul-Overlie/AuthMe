@@ -21,6 +21,17 @@ export const SpecificGroup = () => {
         }
     }
 
+    let eventList = []
+    let beforeEvent = []
+    let afterEvent = []
+
+    currGroup?.events?.forEach(event => new Date()>new Date(event.startDate) ?
+    afterEvent.push(event) : beforeEvent.push(event))
+
+    beforeEvent.sort((a,b) => new Date(a.startDate)-new Date(b.startDate))
+
+    eventList = [...beforeEvent, ...afterEvent]
+
 
     useEffect(() => {
         dispatch(restoreGroup(groupId))
@@ -43,14 +54,16 @@ export const SpecificGroup = () => {
         :<button className="red" onClick={() => alert("Feature coming soon")}>Join this group</button>}
         <div>{"What we're about"}</div>
         <div>{currGroup?.about}</div>
-        {currGroup?.events.map(event => {
-            return <div key={event.id}>
+        <div>Events</div>
+        <div># events ({currGroup?.events?.length})</div>
+        {eventList?.map(event => {
+            return <NavLink to={"/events/"+event.id} key={event.id}>
                 <img src={event.previewImage} />
                 <div>{event.startDate}</div>
                 <div>{event.name}</div>
                 <div>{event.Venue.city}, {event.Venue.state}</div>
                 <div>{event.description}</div>
-            </div> 
+            </NavLink> 
         })}
     </>
 }
