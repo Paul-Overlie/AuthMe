@@ -102,7 +102,7 @@ router.get("/", async(req, res, next)=>{
         createdAt: oup.createdAt,
         updatedAt:oup.updatedAt,
         numMembers: oup.Memberships.length,
-        previewImage: oup.GroupImages[0].url
+        previewImage: oup.GroupImages[0]?.url
     })})
 
     let payload = {Groups: groups}
@@ -255,7 +255,7 @@ router.post("/:groupId/images", requireAuth, async(req,res,next)=>{
     })
     let payload = {
         id: image.id,
-        url: image.url,
+        url: image?.url,
         preview: image.preview
     }
     res.statusCode=200

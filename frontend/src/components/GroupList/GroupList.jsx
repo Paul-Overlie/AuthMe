@@ -25,7 +25,7 @@ useEffect (() => {
     dispatch(restoreEvents())
 }, [dispatch])
 
-
+console.log("GROUPS: ",groups)
     return <>
     <div>
         <NavLink to={"/events"}>Events</NavLink>
