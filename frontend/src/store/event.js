@@ -30,7 +30,6 @@ export const restoreEvent = (eventId) => async dispatch => {
 export const restoreEventsList = () => async dispatch => {
     const response = await csrfFetch("/api/events")
     const data = await response.json()
-    console.log("DATA: ",data)
     dispatch(setEvents(data.Events))
     return data
 } 

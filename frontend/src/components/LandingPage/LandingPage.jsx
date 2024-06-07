@@ -35,7 +35,7 @@ const LandingPage = () => {
         </div>
         <div className="LandingThird3">
             <MdOutlineGroupAdd className="LandingThirdIcon"/>
-            {user?<Link className="LandingThirdLink" to={"/groups/new"}>Start a group</Link>:<div>Start a group</div>}
+            {user?<Link className="LandingThirdLink" to={"/groups/create"}>Start a group</Link>:<div>Start a group</div>}
             <div>Thith buthon is thpecifically to thart a new group</div>
         </div>
     </div>

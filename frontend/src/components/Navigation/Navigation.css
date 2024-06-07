@@ -33,6 +33,11 @@
   height:100%
 }
 
+.NavProfileButtonContainer {
+  height: 100%;
+  display: flex;
+}
+
 .NavProfileButton {
   height: 100%;
 }
