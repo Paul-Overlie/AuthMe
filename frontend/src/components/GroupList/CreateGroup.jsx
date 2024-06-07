@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom"
 
 export const CreateGroup = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    
     let theState = useSelector(state => state.groups?.madeGroup)
     let errors = useSelector(state => state.groups?.groupErrs?.errors)
-    const navigate = useNavigate()
 
     let [location, setLocation] = useState("")
     let [name, setName] = useState("")
@@ -22,8 +23,8 @@ export const CreateGroup = () => {
         let response = await dispatch(createGroup({
             name, about, type:online, private:publicity, city, state, image
         }))
-        if(response) {console.log("STEP 1")
-            if(Object.values(response).length>0){console.log("STEP 2"), navigate('/groups/'+theState?.id)}
+        if(response) {
+            if(Object.values(response).length>0){navigate('/groups/'+theState?.id)}
         }
     }
     

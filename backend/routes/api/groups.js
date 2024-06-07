@@ -504,6 +504,7 @@ router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res
             msg:"End date is less than start date"
         })
     }
+if(req.body?.description?.length<30 && !result.errors.path?.description){result.errors.push({path:'description', msg:'Description must be at least 30 characters long.'})}
     let errors={}
     // console.log("result errors:",result.errors)
     if(result.errors.length>0){

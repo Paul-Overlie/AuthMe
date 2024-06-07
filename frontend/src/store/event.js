@@ -2,6 +2,9 @@ import { csrfFetch } from './csrf.js';
 
 const RESTORE_EVENT = 'get/events/eventId'
 const RESTORE_EVENTS = 'get/events'
+const CREATE_EVENT = 'post/groups/groupId/events'
+const SET_EVENT_ERRORS = 'post/groupsAndEventGroupErrors'
+const SET_VENUES = 'post/groups/groupId/venues'
 
 const setEvent = (event) => ({
     type: RESTORE_EVENT,
@@ -11,6 +14,21 @@ const setEvent = (event) => ({
 const setEvents = (events) => ({
     type: RESTORE_EVENTS,
     payload: events
+})
+
+const makeEvent = (event) => ({
+  type: CREATE_EVENT,
+  payload: event
+})
+
+const setErrors = (err) => ({
+  type: SET_EVENT_ERRORS,
+  payload: err
+})
+
+const setVenues = (venues) => ({
+  type: SET_VENUES,
+  payload: venues
 })
 
 export const restoreEvent = (eventId) => async dispatch => {
@@ -34,6 +52,35 @@ export const restoreEventsList = () => async dispatch => {
     return data
 } 
 
+export const createEvent = (body) => async dispatch => {
+  try {
+    const response = await csrfFetch(`/api/groups/`+body.groupId+`/events`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({name:body.name, type:body.inPerson, 
+        price:body.price, startDate:body.startDate, endDate:body.endDate, 
+        description:body.description, capacity:body.capacity, venueId:1})
+    })
+    const data = await response.json()
+    await csrfFetch("/api/events/"+data.id+"/images", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({url:body.venue.id, preview:true})
+    })
+    dispatch(makeEvent(data))
+    return data
+} catch (error) {
+  let err = await error
+  dispatch(setErrors(err.errors))
+}
+}
+
+export const restoreVenues = (groupId) => async dispatch => {
+  const response = await csrfFetch('/api/groups/'+groupId+'/venues')
+  const data = await response.json()
+  dispatch(setVenues(data.Venues))
+}
+
 const initialState = {events: null}
 
 export function eventReducer(state = initialState, action) {
@@ -42,10 +89,12 @@ export function eventReducer(state = initialState, action) {
         return { ...state, currEvent: action.payload };
       case RESTORE_EVENTS:
         return { ...state, events: action.payload}
-    //   case RESTORE_EVENTS:
-    //     return { ...state, events: action.payload}
-    //   case RESTORE_GROUP:
-    //     return { ...state, currGroup: action.payload}
+      case CREATE_EVENT:
+        return { ...state, madeEvent: action.payload}
+      case SET_EVENT_ERRORS:
+        return { ...state, eventErrs: action.payload}
+      case SET_VENUES:
+        return { ...state, venues: action.payload}
     //   case REMOVE_USER:
     //     return { ...state, user: null };
       default:
