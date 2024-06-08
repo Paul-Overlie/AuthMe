@@ -13,7 +13,7 @@ export const CreateGroup = () => {
     let [location, setLocation] = useState("")
     let [name, setName] = useState("")
     let [about, setAbout] = useState("")
-    let [online, setOnline] = useState("In Person")
+    let [online, setOnline] = useState("In person")
     let [publicity, setPublicity] = useState(true)
     let [image, setImage] = useState("")
 

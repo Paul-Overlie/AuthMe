@@ -98,6 +98,16 @@ export const restoreGroups = () => async dispatch => {
     return data;
 };
 
+  export const deleteGroup = (groupId) => async dispatch => {
+    const response = await csrfFetch("/api/groups/"+groupId, {
+      method: "DELETE"
+    })
+    const data = await response.json()
+    console.log("DATA: ",data)
+    dispatch(setGroup(null))
+    return
+  }
+
   const initialState = {groups: null}
 
   export function groupReducer(state = initialState, action) {

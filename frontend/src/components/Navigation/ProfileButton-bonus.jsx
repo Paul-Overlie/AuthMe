@@ -11,6 +11,7 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const navigate = useNavigate()
+  console.log("INITIAL SHOWMENU",showMenu)
 
   const toggleMenu = (e) => {
     e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
@@ -20,7 +21,7 @@ function ProfileButton({ user }) {
   useEffect(() => {
     if (!showMenu) return;
 
-    const closeMenu = (e) => {
+    const closeMenu = (e) => {console.log("CURR ULREF: ",ulRef.current, "E.TARGET: ",e.target)
       if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
       }
@@ -42,6 +43,7 @@ function ProfileButton({ user }) {
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  console.log("END SHOWMENU",showMenu)
 
   return (
     <nav className='userProfileButtonContainer'>
