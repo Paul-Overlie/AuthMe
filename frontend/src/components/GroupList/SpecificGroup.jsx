@@ -15,7 +15,10 @@ export const SpecificGroup = () => {
     let currGroup = useSelector(state => state.groups.currGroup)
     let userId = useSelector(state => state.session.user?.id)
 
-    localStorage.setItem("groupId", JSON.stringify(currGroup))
+    if(currGroup?.Organizer?.id===userId){
+        localStorage.setItem("groupId", JSON.stringify(currGroup))
+    }
+    
 
     let imgSrc = () => {
         if(currGroup){
@@ -40,6 +43,10 @@ export const SpecificGroup = () => {
         navigate('/events/create')
     }
 
+    const updateEvent = () => {
+        navigate(`/groups/${groupId}/edit`)
+    }
+
     useEffect(() => {
         dispatch(restoreGroup(groupId))
     }, [dispatch, groupId])
@@ -52,11 +59,11 @@ export const SpecificGroup = () => {
         <div>{currGroup?.events?.length} events</div>
         <div>·</div>
         <div>{currGroup?.private ? "Private" : "Public"}</div>
-        <div>Organized by {currGroup?.Organizer.firstName} {currGroup?.Organizer.lastName}</div>
-        {currGroup?.Organizer.id===userId ? 
+        <div>Organized by {currGroup?.Organizer?.firstName} {currGroup?.Organizer?.lastName}</div>
+        {currGroup?.Organizer?.id===userId ? 
         <div>
             <button onClick={createEvent}>Create event</button>
-            <button>Update</button>
+            <button onClick={updateEvent}>Update</button>
             <button>Delete</button>
         </div>
         :<button className="red" onClick={() => alert("Feature coming soon")}>Join this group</button>}

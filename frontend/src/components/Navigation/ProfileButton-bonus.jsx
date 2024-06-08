@@ -37,6 +37,7 @@ function ProfileButton({ user }) {
     e.preventDefault();
     dispatch(sessionActions.logout());
     closeMenu();
+    localStorage.setItem("groupId", "")
     navigate("/")
   };
 

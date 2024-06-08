@@ -13,6 +13,7 @@ import { SpecificEvent } from './components/EventList/SpecificEvent';
 import { EventList } from './components/EventList/EventList';
 import { CreateGroup } from './components/GroupList/CreateGroup';
 import { CreateEvent } from './components/EventList/CreateEvent';
+import { EditGroup } from './components/GroupList/EditGroup';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -64,6 +65,10 @@ const router = createBrowserRouter([
       {
         path: '/events/create',
         element: <CreateEvent />
+      },
+      {
+        path: '/groups/:groupId/edit',
+        element: <EditGroup />
       }
     ]
   }

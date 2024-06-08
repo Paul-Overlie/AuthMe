@@ -6,6 +6,7 @@ const RESTORE_EVENTS = 'groups/groupid/events'
 const RESTORE_GROUP = 'get/groups/groupId'
 const CREATE_GROUP = 'post/groups'
 const SET_ERRORS = 'post/groups/bad'
+const UPDATE_GROUP = 'put/groups/groupId'
 
 const setGroups = (groups) => ({
 type: RESTORE_GROUPS,
@@ -30,6 +31,11 @@ const makeGroup = (group) => ({
 const setGroupErrors = (err) => ({
   type: SET_ERRORS,
   payload: err
+})
+
+const setUpdatedGroup = (group) => ({
+  type: UPDATE_GROUP,
+  payload: group
 })
 
 export const restoreGroups = () => async dispatch => {
@@ -81,6 +87,17 @@ export const restoreGroups = () => async dispatch => {
     }
   }
 
+  export const updateGroup = (body) => async dispatch => {
+    const response = await csrfFetch(`/api/groups/${body.currGroupId}`, {
+      method: "PUT",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({name:body.name, about:body.about, type:body.type, private:body.private, city:body.city, state:body.state})
+    });
+    const data = await response.json();
+    dispatch(setUpdatedGroup(data));
+    return data;
+};
+
   const initialState = {groups: null}
 
   export function groupReducer(state = initialState, action) {
@@ -95,6 +112,8 @@ export const restoreGroups = () => async dispatch => {
         return { ...state, madeGroup: action.payload }
       case SET_ERRORS:
         return { ...state, groupErrs: action.payload}
+      case UPDATE_GROUP:
+        return { ...state, currGroup: action.payload}
     //   case REMOVE_USER:
     //     return { ...state, user: null };
       default:
