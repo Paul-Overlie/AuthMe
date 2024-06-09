@@ -39,6 +39,13 @@
   display: flex;
 }
 
+.NavCreateGroup {
+  color: teal;
+  align-self: center;
+  justify-self: center;
+  text-decoration: none;
+}
+
 .NavProfileButton {
   height: 100%;
 }
@@ -177,6 +184,18 @@
   font-size: .6cm;
   font-weight: bold;
   margin: 15px;
+  color: teal;
+}
+
+.LandingThird3DisabledLink {
+  font-size: .6cm;
+  font-weight: bold;
+  margin: 15px;
+  color: grey;
+}
+
+.LandingThird3DisabledLink:hover {
+  cursor: default;
 }
 
 .LandingFourth {
