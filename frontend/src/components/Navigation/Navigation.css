@@ -60,6 +60,11 @@
   height: 100%;
 }
 
+.ProfileButtonArrow {
+  height: 100%;
+  font-size: 0.5cm;
+}
+
 .greyLine {
   height: 5px;
   width: 100%;
