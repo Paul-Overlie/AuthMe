@@ -5,7 +5,7 @@ import { MdGroups, MdEventAvailable, MdOutlineGroupAdd } from "react-icons/md";
 
 const LandingPage = () => {
     const user = useSelector(state => state.session.user)
-    // console.log(user)
+    console.log(user)
     return <>
     <div className="LandingFirst">
         <div className="LandingFirstLeft">
@@ -40,7 +40,7 @@ const LandingPage = () => {
         </div>
     </div>
     <div className="LandingFourth">
-        <button>Join Loony-up</button>
+        { !user?.firstName ? <button>Join Loony-up</button> : null }
     </div>
     </>
 }
