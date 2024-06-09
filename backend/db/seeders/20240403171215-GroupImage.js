@@ -23,23 +23,23 @@ module.exports = {
     */
    await GroupImage.bulkCreate([
     {groupId: 3,
-    url: "1234567890",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9Th5xIGLDYwgVFyOmx-jgdDnvA37WwK-MDQ&s",
     preview: true},
 
     {groupId: 2,
-    url: "0987654321",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0UotGPCW4XiWO3yRHoQGGBCjHNVwbev6DRw&s",
     preview: true},
 
     {groupId: 1,
-    url: "asdf",
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdXMEsrH8AJH2cyFEa_enceEqP37f9B_Rp_g&s",
     preview: true},
 
     {groupId: 4,
-      url: "fdsa",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5UpxwYMVAW5kdW6fuwR4oPO5e4ugdtraI5A&s",
       preview: true},
 
       {groupId: 5,
-        url: "jk",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1Xr6JTe1OEE69GZYEuDpnxLBjzamQfLnLFA&s",
         preview: true}
    ])
   },

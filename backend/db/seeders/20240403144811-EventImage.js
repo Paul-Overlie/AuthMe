@@ -24,19 +24,19 @@ module.exports = {
     */
     await EventImage.bulkCreate([
       {eventId: 1,
-      url: "aaaaaaaaaa",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp_kH4cm3PceLgGcc-vZWnUs5-jGydDr5G6w&s",
       preview: true},
       {eventId: 3,
-      url: "bbbbbbbbbb",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7Sjb9OLrmkzMwHB_8lqQZnBw4G1cIGoVdbw&s",
       preview: true},
       {eventId: 2,
-      url: "cccccccccc",
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5SQ4YQTfEtO1PGORz08vfdz45KmFd-fpZ4A&s",
       preview: true},
       {eventId: 4,
-        url: "dddddddddd",
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLsvfHKJ3X2_jPHIcRfFX0l2tcV-HNwIZEKg&s",
         preview: true},
         {eventId: 5,
-          url: "eeeeeeeeee",
+          url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkbHwlHq_Uj64Mj26U4eKpv8nMSXwdurCPjw&s",
           preview: true}
      ])
   },
