@@ -83,6 +83,144 @@
     color: grey;
 }
 
-.red {
+.SpecificGroupContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SpecificGroupTopContainer {
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    justify-content: space-between;
+}
+
+.SpecificGroupTopContainer>a {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.SpecificGroupTopContainer>img {
+    width: 40%;
+    height: 300px;
+}
+
+.SpecificGroupTopText {
+    width: 40%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.SpecificGroupTitle {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 1cm;
+    color: black;
+}
+
+.SpecificGroupTexts {
+    color: grey;
+    margin-top: 10px;
+}
+
+.SpecificGroupOwnerButtons {
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+.SpecificGroupOwnerButton {
+    margin-right: 5px;
+    background-color: rgb(122, 122, 122);
+    color: white;
+    box-shadow: black 3px 3px;
+}
+
+.SpecificGroupUserButton {
+    margin-top: auto;
     background-color: red;
+    color: white;
+    width: 50%;
+    height: 30px;
+    box-shadow: 3px 3px black;
+}
+
+.SpecificGroupBottomContainerContainer {
+    width: 100%;
+    margin-top: 25px;
+    padding-top: 25px;
+    background-color: rgb(232, 232, 232);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SpecificGroupBottomContainer {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.SpecificGroupBottomOrganizer {
+    font-size: 1cm;
+}
+
+.SpecificGroupBottomName {
+    color: grey;
+    margin-top: 10px;
+}
+
+.SpecificGroupBottomAbout {
+    margin-top: 20px;
+    font-size: 1cm;
+}
+
+.SpecificGroupBottomDescription {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.SpecificGroupBottomEventsTitle {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 1cm;
+}
+
+.SpecificGroupBottomContainer>a {
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 70%;
+}
+
+.NavTop {
+    display: flex;
+}
+
+.NavTopRight {
+    margin-left: 10px;
+}
+
+.NavTopName {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.NavTopPlace {
+    color: grey;
+}
+
+.NavBottom {
+    margin: 10px;
+    width: 100%;
 }
