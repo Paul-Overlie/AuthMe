@@ -14,9 +14,10 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
+  console.log("ERRORS: ",errors)
 
   const disabled = () => {
-    return email.length<1||username.length<1||firstName.length<1||lastName.length<1||password.length<6||confirmPassword.length<1
+    return email.length<1||username.length<4||firstName.length<1||lastName.length<1||password.length<6||confirmPassword.length<1||password!==confirmPassword
   }
 
   const handleSubmit = (e) => {
@@ -29,86 +30,74 @@ function SignupFormModal() {
           username,
           firstName,
           lastName,
-          password
+          password,
+          confirmPassword
         })
       )
         .then(closeModal)
         .catch(async (res) => {
           const data = await res.json();
+          console.log("CATCHDATA: ",data)
           if (data?.errors) {
             setErrors(data.errors);
           }
         });
-    }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
+    } else {setErrors({confirmPassword: "Password and Confirm Password need to match."})}
   };
 
   return (
     <>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
+      <h1 className='SignupTitle'>Sign Up</h1>
+      <form onSubmit={handleSubmit} className='SignupContainer'>
+        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.lastName && <p>{errors.lastName}</p>}
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
         {errors.username && <p>{errors.username}</p>}
-        <label>
-          First Name
+    {errors.password && <p>{errors.password}</p>}
+        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
           <input
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
+            placeholder='First Name'
           />
-        </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
+            placeholder='Last Name'
           />
-        </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Password
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            placeholder='Email'
+          />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            placeholder='Username'
+          />
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder='Password'
           />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            placeholder='Confirm Password'
           />
-        </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+          {/* {errors.confirmPassword ? <p>{errors.confirmPassword}</p> : null} */}
         <button type="submit" disabled={disabled()}>Sign Up</button>
       </form>
     </>
