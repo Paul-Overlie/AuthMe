@@ -1,17 +1,23 @@
-import { NavLink, useParams } from "react-router-dom"
+import { NavLink, useNavigate, useParams } from "react-router-dom"
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { restoreEvent } from "../../store/event";
+import { useEffect, useRef, useState } from "react";
+import { deleteEvent, restoreEvent } from "../../store/event";
 import { FaRegClock } from "react-icons/fa";
 import { FaMoneyBill1Wave } from "react-icons/fa6";
 import { FiMapPin } from "react-icons/fi";
 
 export const SpecificEvent = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()    
     const {eventId} = useParams()
+    const events = useSelector(state => state.events.events)
     const event = useSelector(state => state.events.currEvent)
     const userId = useSelector(state => state.session.user?.id)
+    const ulRef = useRef()
+    const modal = document.querySelector(".deleteEventModal")
+
+    let [seeModal, setSeeModal] = useState(false)
 
     useEffect(() => {
         dispatch(restoreEvent(eventId))
@@ -34,6 +40,33 @@ export const SpecificEvent = () => {
             }
         }
     }
+
+    const openModal = (e) => {
+        e.stopPropagation()
+        setSeeModal(true)
+        modal?.showModal()
+    }
+
+    useEffect(() => {
+        if(!seeModal) {return}
+
+        const closeModal = (e) => {
+          if (ulRef.current && !ulRef.current.contains(e.target)) {
+            setSeeModal(false);
+            modal.close()
+          }
+        };
+    
+        document.addEventListener('click', closeModal);
+        return () => document.removeEventListener('click', closeModal);
+      }, [modal, seeModal]);
+
+      const onDelete = () => {
+        let removeIndex = events.findIndex(e => e.id === eventId)
+        console.log("REMOVEINDEX",removeIndex)
+        dispatch(deleteEvent(eventId))
+        navigate("/groups/"+event.Group.id)
+      }
 
     return <>
         <NavLink to={"/events"}><MdKeyboardArrowLeft />Events</NavLink>
@@ -63,7 +96,17 @@ export const SpecificEvent = () => {
             userId === event?.organizer.id ?
             <div>
                 <button>Update</button>
-                <button>Delete</button>
+                <button onClick={openModal}>Delete</button>
+
+                {/* Delete Event Modal */}
+            <dialog className="deleteEventModal">
+                <div ref={ulRef}>
+                    <div>Confirm Delete</div>
+                    <div>Are you sure you want to remove this event?</div>
+                    <button onClick={onDelete}>Yes (Delete Event)</button>
+                    <button>No (Keep Event)</button>
+                </div></dialog>
+
             </div> : null
         }
     </>

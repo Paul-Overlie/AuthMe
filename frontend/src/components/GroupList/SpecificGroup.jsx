@@ -15,7 +15,6 @@ export const SpecificGroup = () => {
     const modal = document.querySelector(".deleteGroupModal")
     
     let [seeModal, setSeeModal] = useState(false)
-    console.log("MODAL",seeModal)
 
     let currGroup = useSelector(state => state.groups.currGroup)
     let userId = useSelector(state => state.session.user?.id)
@@ -65,15 +64,14 @@ export const SpecificGroup = () => {
     useEffect(() => {
         if(!seeModal) {return}
 
-        const closeModal = (e) => {console.log("CURR ULREF: ",ulRef.current, "E.TARGET: ",e.target)
-          if (ulRef.current && !ulRef.current.contains(e.target)) {console.log("BAD BAD BAD")
+        const closeModal = (e) => {
+          if (ulRef.current && !ulRef.current.contains(e.target)) {
             setSeeModal(false);
             modal.close()
           }
         };
     
         document.addEventListener('click', closeModal);
-    console.log("END SEEMODAL: ",seeModal)
         return () => document.removeEventListener('click', closeModal);
       }, [modal, seeModal]);
 
