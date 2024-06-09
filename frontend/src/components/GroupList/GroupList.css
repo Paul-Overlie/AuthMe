@@ -1,3 +1,88 @@
+.GroupListPageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.GroupListNavs {
+    display: flex;
+    width: 60%;
+}
+
+.GroupListNavEnabled {
+    margin: 5%;
+    color: grey;
+    text-decoration: none;
+    font-size: .8cm;
+}
+
+.GroupListNavDisabled {
+    margin: 5%;
+    color: teal;
+    text-decoration: underline;
+    font-size: .8cm;
+}
+
+.GroupListNavDisabled:hover {
+    cursor: default;
+}
+
+.GroupListItemsContainer {
+    width: 60%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.GroupListCaption {
+    font-size: .6cm;
+    color: grey;
+    margin-bottom: 4%;
+    width: 100%;
+}
+
+.GroupListItems {
+    border-top: solid 3px grey;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+}
+
+.GroupListImage {
+    height: 150px;
+    width: 150px;
+    margin-right: 5%;
+}
+
+.GroupListText {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.GroupListName {
+    font-size: .8cm;
+    color: black;
+    font-weight: bold;
+}
+
+.GroupListLocation {
+    font-size: .6cm;
+    color: grey;
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.GroupListDescription {
+    color: black;
+    margin-bottom: 8px;
+}
+
+.GroupListEventsAndPublic {
+    color: grey;
+}
+
 .red {
     background-color: red;
 }

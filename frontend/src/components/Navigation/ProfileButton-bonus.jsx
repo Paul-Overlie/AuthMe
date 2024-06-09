@@ -81,6 +81,12 @@ function ProfileButton({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
+            <li>
+              <NavLink to={"/groups"}>View groups</NavLink>
+            </li>
+            <li>
+              <NavLink to={"/events"}>View Events</NavLink>
+            </li>
           </>
         )}
       </ul>
