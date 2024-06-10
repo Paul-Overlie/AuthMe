@@ -7,6 +7,7 @@ import { restoreEventsList } from "../../store/event"
 export const EventList = () => {
     const dispatch = useDispatch()
     const eventList = useSelector(state => state.events.events)
+    console.log("EVENTLIST: ",eventList)
 
 
     useEffect(() => {

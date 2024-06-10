@@ -5,7 +5,7 @@ const RESTORE_EVENTS = 'get/events'
 const CREATE_EVENT = 'post/groups/groupId/events'
 const SET_EVENT_ERRORS = 'post/groupsAndEventGroupErrors'
 const SET_VENUES = 'post/groups/groupId/venues'
-const REMOVE_EVENT = 'delete/events/eventId'
+// const REMOVE_EVENT = 'delete/events/eventId'
 
 const setEvent = (event) => ({
     type: RESTORE_EVENT,
@@ -32,10 +32,10 @@ const setVenues = (venues) => ({
   payload: venues
 })
 
-const removeEvent = (eventId) => ({
-  type: REMOVE_EVENT,
-  payload: eventId
-})
+// const removeEvent = (eventId) => ({
+//   type: REMOVE_EVENT,
+//   payload: eventId
+// })
 
 export const restoreEvent = (eventId) => async dispatch => {
     const response = await csrfFetch("/api/events/"+eventId)
@@ -94,7 +94,7 @@ export const deleteEvent = (eventId) => async dispatch => {
   })
   const data = await response.json()
   console.log("DATA: ",data)
-  dispatch(removeEvent(eventId))
+  dispatch(setEvent(null))
   return
 }
 
@@ -112,8 +112,8 @@ export function eventReducer(state = initialState, action) {
         return { ...state, eventErrs: action.payload}
       case SET_VENUES:
         return { ...state, venues: action.payload}
-      case REMOVE_EVENT:
-        return { ...state, events: { ...state.events,  } };
+      // case REMOVE_EVENT:
+      //   return { ...state, events: { ...state.events,  } };
       default:
         return state;
     }
