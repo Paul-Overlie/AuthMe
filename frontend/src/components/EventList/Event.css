@@ -295,3 +295,43 @@
 .CreateError {
     color: red;
 }
+
+.DeleteEventContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+}
+
+.DeleteEventConfirmation {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: black;
+    font-size: .8cm;
+}
+
+.DeleteEventQuestion {
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DeleteEventYes {
+    background-color: red;
+    color: white;
+    height: 30px;
+    width: 200px;
+    border: black solid 3px;
+    box-shadow: 3px 3px black;
+    margin-bottom: 10px;
+}
+
+.DeleteEventNo {
+    background-color: rgb(99, 99, 99);
+    color: white;
+    height: 30px;
+    width: 200px;
+    border: black solid 3px;
+    box-shadow: 3px 3px black;
+    margin-bottom: 10px;
+}

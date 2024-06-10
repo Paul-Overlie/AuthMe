@@ -307,3 +307,43 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.DeleteGroupContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+}
+
+.DeleteGroupConfirmation {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: black;
+    font-size: .8cm;
+}
+
+.DeleteGroupQuestion {
+    color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.DeleteGroupYes {
+    background-color: red;
+    color: white;
+    height: 30px;
+    width: 200px;
+    border: black solid 3px;
+    box-shadow: 3px 3px black;
+    margin-bottom: 10px;
+}
+
+.DeleteGroupNo {
+    background-color: rgb(99, 99, 99);
+    color: white;
+    height: 30px;
+    width: 200px;
+    border: black solid 3px;
+    box-shadow: 3px 3px black;
+    margin-bottom: 10px;
+}

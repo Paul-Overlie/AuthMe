@@ -12,6 +12,7 @@ export const SpecificGroup = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const ulRef = useRef()
+    const button = useRef()
     const modal = document.querySelector(".deleteGroupModal")
     
     let [seeModal, setSeeModal] = useState(false)
@@ -64,9 +65,8 @@ export const SpecificGroup = () => {
 
     useEffect(() => {
         if(!seeModal) {return}
-
         const closeModal = (e) => {
-          if (ulRef.current && !ulRef.current.contains(e.target)) {
+          if ((ulRef.current && !ulRef.current.contains(e.target))) {
             setSeeModal(false);
             modal.close()
           }
@@ -80,7 +80,6 @@ export const SpecificGroup = () => {
         dispatch(deleteGroup(groupId))
         navigate("/groups")
       }
-      console.log("EVENTLIST: ",eventList)
 
     return <div className="SpecificGroupContainer">
         <div className="SpecificGroupTopContainer">
@@ -99,11 +98,11 @@ export const SpecificGroup = () => {
 
                     {/* Delete Group Modal */}
                     <dialog className="deleteGroupModal">
-                        <div ref={ulRef}>
-                            <div>Confirm Delete</div>
-                            <div>Are you sure you want to remove this group?</div>
-                            <button onClick={onDelete}>Yes (Delete Group)</button>
-                            <button>No (Keep Group)</button>
+                        <div ref={ulRef} className="DeleteGroupContainer">
+                            <div className="DeleteGroupConfirmation">Confirm Delete</div>
+                            <div className="DeleteGroupQuestion">Are you sure you want to remove this group?</div>
+                            <button className="DeleteGroupYes" onClick={onDelete}>Yes (Delete Group)</button>
+                            <button ref={button} className="DeleteGroupNo" onClick={() => {setSeeModal(false), modal.close()}}>No (Keep Group)</button>
                         </div></dialog>
                 </div>
                 : userId ? <button className="SpecificGroupUserButton" onClick={() => alert("Feature coming soon")}>Join this group</button> : null}

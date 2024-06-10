@@ -124,11 +124,11 @@ let sendDate = (req) => {
 
                     {/* Delete Event Modal */}
                 <dialog className="deleteEventModal">
-                    <div ref={ulRef}>
-                        <div>Confirm Delete</div>
-                        <div>Are you sure you want to remove this event?</div>
-                        <button onClick={onDelete}>Yes (Delete Event)</button>
-                        <button>No (Keep Event)</button>
+                    <div className="DeleteEventContainer" ref={ulRef}>
+                        <div className="DeleteEventConfirmation">Confirm Delete</div>
+                        <div className="DeleteEventQuestion">Are you sure you want to remove this event?</div>
+                        <button className="DeleteEventYes" onClick={onDelete}>Yes (Delete Event)</button>
+                        <button className="DeleteEventNo" onClick={() => {setSeeModal(false), modal.close()}}>No (Keep Event)</button>
                     </div></dialog>
 
                 </div> : null
