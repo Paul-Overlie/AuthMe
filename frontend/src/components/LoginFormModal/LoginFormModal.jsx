@@ -3,9 +3,11 @@ import * as sessionActions from '../../store/session';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import './LoginForm.css';
+import { useNavigate } from 'react-router-dom';
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -23,7 +25,7 @@ function LoginFormModal() {
         if (data && data.errors) {
           setErrors({credential: 'The provided credentials were invalid'})
             // data.errors);
-        }
+        } navigate("/")
       });
   };
 
@@ -31,6 +33,7 @@ function LoginFormModal() {
     e.preventDefault()
     dispatch(sessionActions.defaultLogin())
     closeModal()
+    navigate("/")
   }
 
   return (
