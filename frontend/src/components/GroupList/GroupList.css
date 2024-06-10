@@ -267,6 +267,7 @@
     margin-bottom: 10px;
     border: solid black 3px;
     background-color: rgb(209, 218, 255);
+    width: 40%;
 }
 
 .createGroup3Input {
