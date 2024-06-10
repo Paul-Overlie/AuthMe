@@ -23,7 +23,7 @@ module.exports = {
     */
    await Group.bulkCreate([
     {organizerId: 1,
-    name: "This is a name so long that it will have to hit the edge of the wall and test if my stuff is wrapping",
+    name: "This is a name so long that it will have",
     about: "Looney Tunes and Merrie Melodies were initially produced by Leon Schlesinger and animators Hugh Harman and Rudolf Ising from 1930 to 1933.[3] Schlesinger assumed full production from 1933 until he sold his studio to Warner Bros. in 1944, after which it was renamed Warner Bros. Car",
     type: "In person",
     private: true,
