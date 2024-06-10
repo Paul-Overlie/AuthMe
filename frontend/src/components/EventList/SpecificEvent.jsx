@@ -12,7 +12,7 @@ export const SpecificEvent = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()    
     const {eventId} = useParams()
-    const events = useSelector(state => state.events.events)
+    // const events = useSelector(state => state.events.events)
     const event = useSelector(state => state.events.currEvent)
     const userId = useSelector(state => state.session.user?.id)
     const ulRef = useRef()
@@ -76,12 +76,10 @@ let sendDate = (req) => {
       }, [modal, seeModal]);
 
       const onDelete = () => {
-        let removeIndex = events.findIndex(e => e.id === eventId)
-        console.log("REMOVEINDEX",removeIndex)
+        // let removeIndex = events.findIndex(e => e.id === eventId)
         dispatch(deleteEvent(eventId))
         navigate("/groups/"+event.Group.id)
       }
-      console.log("GROUP: ",event)
 
     return <div className="SpecificEventContainer">
         <div className="SpecificEventFirst">

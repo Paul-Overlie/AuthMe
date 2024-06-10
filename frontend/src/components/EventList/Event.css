@@ -150,3 +150,77 @@
     border: 2px solid black;
     box-shadow: 2px 2px black;
 }
+
+.EventsListContainerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.EventsListContainer {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.EventsListTitlePages {
+    display: flex;
+    align-items: center;
+}
+
+.EventsListTitleDisabled {
+    font-size: .8cm;
+    margin-top: 5%;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    color: teal;
+    text-decoration: underline;
+    cursor: default;
+}
+
+.EventsListTitleEnabled {
+    font-size: .8cm;
+    color: grey;
+    text-decoration: none;
+    margin: 5%;
+}
+
+.EventsListTitle {
+    color: grey;
+    font-size: .6cm;
+    margin-bottom:4%;
+}
+
+.EventsListLinks {
+    border-top: solid 3px grey;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    flex-wrap: wrap;
+}
+
+.EventsListLinks>img {
+    height: 150px;
+    width: 150px;
+    margin-right: 5%;
+}
+
+.EventsListText {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.EventsListPlace {
+    color: grey;
+}
+
+.EventsListDescription {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}

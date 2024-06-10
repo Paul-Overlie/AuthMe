@@ -92,13 +92,24 @@ errors:{}}
     // console.log("origin", origin, "originId", origin.id)
     let events =[]
 
-    origin.forEach((event)=>{
-        // console.log("Group:", event.Group, "Venue:",event.Venue)
-        // console.log("PASSED HERE")
-        let gru = null
-        if(event.Group){
-            gru = {
-                id:event.Group.id,
+    //FORMAT DATE!!!
+    let formatDate = (date) => {
+        let startYear = date.getFullYear()
+        let startMonth = date.getMonth()
+        let startDay = date.getDate()
+        let startHour = date.getHours()
+        let startMinute = date.getMinutes()
+        let startSecond = date.getSeconds()
+        return `${startYear}-${startMonth}-${startDay} ${startHour}:${startMinute}:${startSecond}`
+        }
+
+        origin.forEach((event)=>{
+            // console.log("Group:", event.Group, "Venue:",event.Venue)
+            // console.log("PASSED HERE")
+            let gru = null
+            if(event.Group){
+                gru = {
+                    id:event.Group.id,
                 name:event.Group.name,
                 city:event.Group.city,
                 state:event.Group.state
@@ -124,12 +135,13 @@ errors:{}}
         venueId: event.venueId,
         name: event.name,
         type: event.type,
-        startDate: event.startDate,
-        endDate: event.endDate,
+        startDate: formatDate(event.startDate),
+        endDate: formatDate(event.endDate),
         numAttending: event.Attendances.length,
         previewImage: prev,
         Group: gru,
-        Venue: ven
+        Venue: ven,
+        description: event.description
     })})
     
     let payload = {Events: events}
