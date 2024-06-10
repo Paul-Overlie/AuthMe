@@ -224,3 +224,15 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.CreateEventFormContainer {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.CreateEventForm {
+    display: flex;
+    flex-direction: column;
+}

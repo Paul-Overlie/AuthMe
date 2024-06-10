@@ -70,7 +70,7 @@ export const CreateEvent = () => {
         navigate("/events/"+newEvent.id)
     }
 
-    return <form onSubmit={onSubmit}>
+    return <div className="CreateEventFormContainer"><form onSubmit={onSubmit} className="CreateEventForm">
     <div>Create a new event for {group?.name}</div>
     <label>What is the name of your event?
         <input type="text" placeholder="Event Name"
@@ -124,4 +124,5 @@ export const CreateEvent = () => {
     </label>
     <button>Create Event</button>
     </form>
+    </div>
 }

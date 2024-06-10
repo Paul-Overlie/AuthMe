@@ -227,3 +227,82 @@
     margin: 10px;
     width: 100%;
 }
+
+.CreateGroupFormContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.CreateGroupForm {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.CreateGroupTitle {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    font-size: .8cm;
+    width: 100%;
+    border-bottom: 3px solid grey;
+}
+
+.createGroup1 {
+    margin-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid grey;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.createGroup1Command {
+    font-size: .8cm;
+    margin-bottom: 10px;
+}
+
+.createGroup1Input {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid black 3px;
+    background-color: rgb(209, 218, 255);
+}
+
+.createGroup3Input {
+    height: 150px;
+    width: 40%;
+}
+
+.createGroup4 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.createGroup4Input {
+    width: 150px;
+    border: 3px black solid;
+    background-color: rgb(209, 218, 255);
+}
+
+.createGroupOption {
+    border: 3px black solid;
+    background-color: rgb(209, 218, 255);
+}
+
+.CreateGroupForm>button {
+    width: 20%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    color: white;
+    background-color: red;
+    padding: 10px;
+    border: 3px black solid;
+    box-shadow: 3px 3px black;
+}
+
+.createGroupErrors {
+    color: red;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

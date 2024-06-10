@@ -182,6 +182,9 @@ router.get("/:groupId", async (req, res, next)=>{
 router.post("/", requireAuth, editGroupValidations, async (req, res, next)=>{
     let result = validationResult(req)
     let errors={}
+    if(!req.body.name){errors.name="Name is required"}
+    if(!req.body.typer){errors.typer="Group Type is required"}
+    if(req.body.privacy!==true&&req.body.privacy!==false){errors.privacy="Visibility Type is required"}
     // console.log("result errors:",result.errors)
     if(result.errors.length>0){
         result.errors.forEach(e=>{errors[e.path]=e.msg})

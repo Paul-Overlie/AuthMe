@@ -72,12 +72,13 @@ export const restoreGroups = () => async dispatch => {
         body: JSON.stringify(mainBody)
       })
       const data = await response.json()
-      dispatch(makeGroup(data))
+      console.log("DATA: ",data)
       const response2 = await csrfFetch(`/api/groups/${data.id}/images`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({url:body.image, preview: true})
-      })
+        })
+        dispatch(makeGroup(data))
       const data2 = await response2.json()
       return {group:data, img:data2}
     }
