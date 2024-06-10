@@ -67,62 +67,66 @@ export const CreateEvent = () => {
         //submitting thunk
         let newEvent = await dispatch(createEvent({name, inPerson, price, startDate:start, endDate:end, 
             img, description, groupId:group.id, capacity, venue:currVenue}))
+            if(newEvent){
         navigate("/events/"+newEvent.id)
-    }
+    }}
 
     return <div className="CreateEventFormContainer"><form onSubmit={onSubmit} className="CreateEventForm">
-    <div>Create a new event for {group?.name}</div>
-    <label>What is the name of your event?
-        <input type="text" placeholder="Event Name"
+    <div className="CreateEventTitle">Create a new event for {group?.name}</div>
+    <label className="CreateEventNormal" htmlFor="name">What is the name of your event?</label>
+        <input className="CreateEventInput" type="text" name="name" placeholder="Event Name"
         value={name} onChange={(e)=>{setName(e.target.value)}}/>
-    </label>
-    {errors?.name ?<div>{errors.name}</div> : null}
-    <label>Is this an in-person or online group?
-        <select value={inPerson} onChange={(e)=>{setInPerson(e.target.value)}}>
+    
+    {errors?.name ?<div className="CreateError">{errors.name}</div> : null}
+    <label className="UnderALine" htmlFor="inPerson">Is this an in-person or online group?</label>
+        <select className="CreateEventInput CreateEventSnugInput" value={inPerson} name="inPerson" onChange={(e)=>{setInPerson(e.target.value)}}>
             <option>In person</option>
             <option>Online</option>
         </select>
-    </label>
-    {errors?.type ? <div>{errors.type}</div> : null}
-    <label>What is the price of your event?
-        <input type="number" placeholder="0" 
+    
+    {errors?.type ? <div className="CreateError">{errors.type}</div> : null}
+    <label className="GapInput" htmlFor="price" value="$">What is the price for your event?</label>
+    <div className="MoneyContainer">
+    <i className="Money">$</i>
+        <input className="CreateEventInput CreateEventSnugInput RightInput" name="price" type="number" placeholder="0" 
         value={price} onChange={(e)=>{setPrice(e.target.value)}}/>
-    </label>
-    {errors?.price ? <div>{errors.price}</div> : null}
-    <label>When does your event start?
-        <input type="text" placeholder="MM/DD/YYYY, HH/mm AM"
+        </div>
+    
+    {errors?.price ? <div className="CreateError">{errors.price}</div> : null}
+    <label className="UnderALine" htmlFor="start">When does your event start?</label>
+        <input className="CreateEventInput CreateEventSnugInput" type="text" name="start" placeholder="MM/DD/YYYY, HH/mm AM"
         value={startDate} onChange={(e)=>{setStartDate(e.target.value)}}/>
-    </label>
-    {errors?.startDate ? <div>{errors.startDate}</div> : null}
-    <label>When does your event end?
-        <input type="text" placeholder="MM/DD/YYYY, HH/mm PM"
+    
+    {errors?.startDate ? <div className="CreateError">{errors.startDate}</div> : null}
+    <label className="GapInput" htmlFor="end">When does your event end?</label>
+        <input className="CreateEventInput CreateEventSnugInput" type="text" name="end" placeholder="MM/DD/YYYY, HH/mm PM"
         value={endDate} onChange={(e)=>{setEndDate(e.target.value)}}/>
-    </label>
-    {errors?.endDate ? <div>{errors.endDate}</div> : null}
-    <label>How many people can attend?
-        <input type="number" value={capacity} onChange={(e)=>{setCapacity(e.target.value)}}/>
-    </label>
-    {errors?.capacity ? <div>{errors.capacity}</div> : null}
-    <label>Please add an image url for your event below.
-        <input type="text" placeholder="Image URL"
+    
+    {errors?.endDate ? <div className="CreateError">{errors.endDate}</div> : null}
+    <label className="UnderALine" htmlFor="attendance">How many people can attend?</label>
+        <input className="CreateEventInput CreateEventSnugInput" type="number" value={capacity} name="attendance" onChange={(e)=>{setCapacity(e.target.value)}}/>
+    
+    {errors?.capacity ? <div className="CreateError">{errors.capacity}</div> : null}
+    <label className="UnderALine" htmlFor="image">Please add an image url for your event below.</label>
+        <input className="CreateEventInput" type="text" name="image" placeholder="Image URL"
         value={img} onChange={(e)=>{setImg(e.target.value)}}/>
-    </label>
+    
     {/* {errors?.img ? <div>{errors.img}</div> : null} */}
-    <label>Please describe your event
-        <textarea placeholder="Please include at least 30 characters"
+    <label className="UnderALine" htmlFor="description">Please describe your event</label>
+        <textarea className="CreateEventInput" name="description" placeholder="Please include at least 30 characters"
         value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
-    </label>
-    {errors?.description ? <div>{errors.description}</div> : null}
-    <label>{"What is your venue's name?"}
-        <select type="text" value={venue} onChange={(e)=>{setVenue(e.target.value)}} placeholder="Venue Name">
+    
+    {errors?.description ? <div className="CreateError">{errors.description}</div> : null}
+    <label className="UnderALine" htmlFor="venue">{"What is your venue's name?"}</label>
+        <select className="CreateEventInput" type="text" value={venue} name="venue" onChange={(e)=>{setVenue(e.target.value)}} placeholder="Venue Name">
             {venues?.length>0 ? venues.map(venue => {
                 // console.log("OPTION: ",venue.address);
                 return <option key={venue.id}>{venue.address}</option>
             })
              : null}
         </select>
-    </label>
-    <button>Create Event</button>
+    
+    <button className="CreateEventButton">Create Event</button>
     </form>
     </div>
 }

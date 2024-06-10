@@ -77,7 +77,7 @@ export const createEvent = (body) => async dispatch => {
     dispatch(makeEvent(data))
     return data
 } catch (error) {
-  let err = await error
+  let err = await error.json()
   dispatch(setErrors(err.errors))
 }
 }

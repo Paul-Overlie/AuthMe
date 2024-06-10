@@ -236,3 +236,62 @@
     display: flex;
     flex-direction: column;
 }
+
+.CreateEventTitle {
+    font-size: .8cm;
+    margin-top: 20px;
+}
+
+.CreateEventNormal {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.CreateEventInput {
+    margin-bottom: 20px;
+    background-color: rgb(196, 212, 255);
+    border: 3px solid black;
+}
+
+.UnderALine {
+    width: 100%;
+    border-top: 3px grey solid;
+    padding-top: 20px;
+    margin-bottom: 10px;
+}
+
+.GapInput {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.CreateEventButton {
+    width: 50%;
+    background-color: red;
+    color: white;
+    padding: 5px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    border: 3px black solid;
+    box-shadow: 3px 3px black;
+}
+
+.CreateEventSnugInput {
+    width: fit-content;
+}
+
+.Money {
+    padding-right: -10px;
+}
+
+.MoneyContainer {
+    display: flex;
+}
+
+.RightInput {
+    direction: rtl;
+}
+
+.CreateError {
+    color: red;
+}
