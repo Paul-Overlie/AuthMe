@@ -25,8 +25,8 @@ module.exports = {
    await Event.bulkCreate([
     {venueId: 1,
     groupId: 2,
-    name: "telephone",
-    description: "call people",
+    name: "this is going to be a very long title to make sure that if it is needed my sections are wrapping then I can be very pleasede",
+    description: "Looney Tunes and Merrie Melodies were initially produced by Leon Schlesinger and animators Hugh Harman and Rudolf Ising from 1930 to 1933.[3] Schlesinger assumed full production from 1933 until he sold his studio to Warner Bros. in 1944, after which it was renamed Warner Bros. Cartoons.[3] The Looney Tunes title was inspired by that of Walt Disney's Silly Symphonies.[3] The shorts initially showcased musical compositions owned by Warner's music publishing interests through the adventures of such characters as Bosko and Buddy.[3] However, the shorts gained a higher profile upon the debuts of directors Tex Avery, Friz Freleng, Chuck Jones, and Bob Clampett and voice actor Mel Blanc later in the decade.[3] Porky Pig and Daffy Duck became the featured Looney Tunes characters, while Merrie Melodies featured one-shot cartoons and minor recurring characters.[3]",
     type: "Online",
     capacity: 30,
     price: 300,
@@ -35,8 +35,8 @@ module.exports = {
 
     {venueId: 3,
     groupId: 1,
-    name: "dance party",
-    description: "really fun dancing",
+    name: "How long does a title need to be you may ask? I think that it should be about this long!",
+    description: "Looney Tunes and Merrie Melodies were initially produced by Leon Schlesinger and animators Hugh Harman and Rudolf Ising from 1930 to 1933.[3] Schlesinger assumed full production from 1933 until he sold his studio to Warner Bros. in 1944, after which it was renamed Warner Bros. Cartoons.[3] The Looney Tunes title was inspired by that of Walt Disney's Silly Symphonies.[3] The shorts initially showcased musical compositions owned by Warner's music publishing interests through the adventures of such characters as Bosko and Buddy.[3] However, the shorts gained a higher profile upon the debuts of directors Tex Avery, Friz Freleng, Chuck Jones, and Bob Clampett and voice actor Mel Blanc later in the decade.[3] Porky Pig and Daffy Duck became the featured Looney Tunes characters, while Merrie Melodies featured one-shot cartoons and minor recurring characters.[3]",
     type: "In person",
     capacity: 100,
     price: 100,
