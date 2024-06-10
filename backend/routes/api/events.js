@@ -147,6 +147,17 @@ router.get("/:eventId", async(req,res)=>{
         return res.json({message: "Event couldn't be found"})
     }
 
+    //FORMAT DATE!!!
+    let formatDate = (date) => {
+        let startYear = date.getFullYear()
+        let startMonth = date.getMonth()
+        let startDay = date.getDate()
+        let startHour = date.getHours()
+        let startMinute = date.getMinutes()
+        let startSecond = date.getSeconds()
+        return `${startYear}-${startMonth}-${startDay} ${startHour}:${startMinute}:${startSecond}`
+        }
+
     let {id, groupId, venueId, name, description, type, capacity, price, startDate, endDate}=event
     let payload = {
         id,
@@ -157,8 +168,8 @@ router.get("/:eventId", async(req,res)=>{
         type,
         capacity,
         price,
-        startDate,
-        endDate,
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
         numAttending:event.Attendances.length,
         Group: {id:event.Group.id,
             name:event.Group.name,

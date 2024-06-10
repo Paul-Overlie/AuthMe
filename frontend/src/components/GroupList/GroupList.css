@@ -198,11 +198,12 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 70%;
+    width: 80%;
 }
 
 .NavTop {
     display: flex;
+    margin: 10px;
 }
 
 .NavTopRight {

@@ -451,6 +451,18 @@ router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res
         let stuff =[]
 
     events.forEach((event)=>{
+
+        //FORMAT DATE!!!
+        let formatDate = (date) => {
+            let startYear = date.getFullYear()
+            let startMonth = date.getMonth()
+            let startDay = date.getDate()
+            let startHour = date.getHours()
+            let startMinute = date.getMinutes()
+            let startSecond = date.getSeconds()
+            return `${startYear}-${startMonth}-${startDay} ${startHour}:${startMinute}:${startSecond}`
+            }
+
         let prevImage = []
         event.EventImages.forEach((image)=>{
             // console.log("IMAGGEEEEE",image)
@@ -481,8 +493,8 @@ router.post("/:groupId/venues", requireAuth, editVenueValidations, async(req,res
         venueId: event.venueId,
         name: event.name,
         type: event.type,
-        startDate: event.startDate,
-        endDate: event.endDate,
+        startDate: formatDate(event.startDate),
+        endDate: formatDate(event.endDate),
         numAttending: event.Attendances.length,
         previewImage: prevImage[0]||null,
         Group: gru,

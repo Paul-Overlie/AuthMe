@@ -1,0 +1,152 @@
+.SpecificEventContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.SpecificEventFirst {
+    width: 70%;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.SpecificEventFirst>a {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.SpecificEventFirstTitle {
+    font-size: .8cm;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.SpecificEventFirstName {
+    color: grey;
+}
+
+.SpecificEventSecondOutside {
+    background-color: rgb(224, 224, 224);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.SpecificEventSecondInside {
+    background-color: rgb(224, 224, 224);
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.SESFirst {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.SpecificEventSecondImg {
+    height: 200px;
+    width: 50%;
+}
+
+.SESFirstGroupContainer {
+    width: 100%;
+    padding: 10px;
+    height: 80px;
+    display: flex;
+    background-color: white;
+}
+
+.SESFirstGroupContainer>img {
+    height: 50px;
+    width: 25%;
+    margin-right: 10px;
+}
+
+.SESFirstName {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.SESFirstPrivate {
+    color: grey;
+}
+
+.SESFirstEventContainer {
+    width: 100%;
+    padding: 10px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    margin-top: 10px;
+}
+
+.SESFirstRight {
+    width: 40%;
+}
+
+.SESFirstTime {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.SESFirstTimes {
+    margin-left: 10px;
+}
+
+.SESFirstPrice {
+    display: flex;
+    align-items: center;
+}
+
+.SESFirstPrice>* {
+    margin-right: 10px;
+}
+
+.SESFirstPlace {
+    display: flex;
+    align-items: center;
+}
+
+.SESFirstPlace>* {
+    margin-right: 10px;
+}
+
+.SpecificEventThirdContainer {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.SpecificEventThirdTitle {
+    font-size: .8cm;
+    margin-bottom: 10px;
+}
+
+.SpecificEventThirdDescription {
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.SESFirstButtons {
+    display: flex;
+    width: 50%;
+    justify-content: space-around;
+    margin-left: auto;
+}
+
+.SESFirstButtons>button {
+    background-color: rgb(130, 130, 130);
+    color: white;
+    border: 2px solid black;
+    box-shadow: 2px 2px black;
+}

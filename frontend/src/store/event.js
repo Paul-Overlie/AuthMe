@@ -42,6 +42,7 @@ export const restoreEvent = (eventId) => async dispatch => {
     const data = await response.json()
     const response2 = await csrfFetch("/api/groups/"+data.groupId)
     const data2 = await response2.json()
+    console.log("DATA2",data2)
     data.organizer = {}
     data.organizer.firstName = data2.Organizer.firstName
     data.organizer.lastName = data2.Organizer.lastName

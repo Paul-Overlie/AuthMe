@@ -117,11 +117,12 @@ export const SpecificGroup = () => {
                 <div className="SpecificGroupBottomDescription">{currGroup?.about}</div>
                 <div className="SpecificGroupBottomEventsTitle">Events ({currGroup?.events?.length})</div>
                 {eventList?.map(event => {
+                    let [startDate, startTime] = event.startDate.split(" ")
                     return <NavLink to={"/events/"+event.id} key={event.id}>
                         <div className="NavTop">
                             <img src={event.previewImage} />
                             <div className="NavTopRight">
-                                <div className="NavTopDate">{event.startDate}</div>
+                                <div className="NavTopDate">{startDate} · {startTime}</div>
                                 <div className="NavTopName">{event.name}</div>
                                 <div className="NavTopPlace">{event.Venue.city}, {event.Venue.state}</div>
                             </div>
