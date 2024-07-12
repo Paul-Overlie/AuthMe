@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
-import { createEvent } from "../../store/event"
+import { createEvent, } from "../../store/event"
 import { useSelector } from "react-redux"
 import { restoreVenues } from "../../store/event"
 import { useNavigate } from "react-router-dom"
@@ -25,17 +25,19 @@ export const CreateEvent = () => {
     const [img, setImg] = useState("")
     const [description, setDescription] = useState("")
     const [venue, setVenue] = useState("")
+    const [city, setCity] = useState("")
+    const [state, setState] = useState("")
     
-    let currVenue
-    if(venues && venues?.length>0){currVenue = venues.find(ven => ven.address === venue)}
+    // let currVenue
+    // if(venues && venues?.length>0){currVenue = venues.find(ven => ven.address === venue)}
     
     useEffect(() => {
         dispatch(restoreVenues(group.id))
     }, [dispatch, group.id])
 
     useEffect(() => {
-        if(venues){
-            setVenue(venues[0].address)
+        if(venues?.length>0){
+            setVenue(venues[0]?.address)
         }
     },[venues])
     
@@ -66,7 +68,7 @@ export const CreateEvent = () => {
         let end = fixDate(endDate)
         //submitting thunk
         let newEvent = await dispatch(createEvent({name, inPerson, price, startDate:start, endDate:end, 
-            img, description, groupId:group.id, capacity, venue:currVenue}))
+            img, description, groupId:group.id, capacity, venue, city, state}))
             if(newEvent){
         navigate("/events/"+newEvent.id)
     }}
@@ -117,14 +119,22 @@ export const CreateEvent = () => {
         value={description} onChange={(e)=>{setDescription(e.target.value)}}/>
     
     {errors?.description ? <div className="CreateError">{errors.description}</div> : null}
-    <label className="UnderALine" htmlFor="venue">{"What is your venue's name?"}</label>
-        <select className="CreateEventInput" type="text" value={venue} name="venue" onChange={(e)=>{setVenue(e.target.value)}} placeholder="Venue Name">
+    <label className="UnderALine" htmlFor="venue">{"What is your venue's address?"}</label>
+        {/* <select className="CreateEventInput" type="text" value={venue} name="venue" onChange={(e)=>{setVenue(e.target.value)}} placeholder="Venue Name">
             {venues?.length>0 ? venues.map(venue => {
                 // console.log("OPTION: ",venue.address);
                 return <option key={venue.id}>{venue.address}</option>
             })
-             : null}
-        </select>
+             : null }
+        </select> */}
+        <input className="CreateEventInput" type="text" name="venue" placeholder="Venue Address"
+        value={venue} onChange={(e)=>{setVenue(e.target.value)}}/>
+
+    {/* <label className="UnderALine" htmlFor="city">{"What is your venue's city?"}</label> */}
+    <input className="CreateEventInput" type="text" name="city" placeholder="Venue City"
+        value={city} onChange={(e)=>{setCity(e.target.value)}}/>
+    <input className="CreateEventInput" type="text" name="state" placeholder="Venue State"
+        value={state} onChange={(e)=>{setState(e.target.value)}}/>
     
     <button className="CreateEventButton">Create Event</button>
     </form>
